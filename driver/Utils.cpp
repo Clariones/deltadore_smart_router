@@ -8,9 +8,9 @@ int openDevice(const char* devName, int options){
 
 ssize_t readDevice (int fd, void *buf, size_t nbytes){
     ssize_t n = read(fd, buf, nbytes);
-//    if (n > 0){
-//        dumpHex("Read", buf, n);
-//    }
+    if (n > 0){
+        dumpHex("Read", buf, n);
+    }
     return n;
 }
 ssize_t writeDevice (int fd, const void *buf, size_t n){

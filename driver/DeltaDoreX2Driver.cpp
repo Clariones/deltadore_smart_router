@@ -12,9 +12,13 @@ DeltaDoreX2Driver::~DeltaDoreX2Driver()
 {
     //dtor
     controller->close();
+    sem_destroy(&semAck);
 }
 void DeltaDoreX2Driver::init(const char* devName)
 {
+    // self init
+    sem_init(&semAck, 0, 0);
+
     device.init(devName);
     Controller* ctrl = Factory::createController();
     ctrl->addAcknowledgmentListener(this);
@@ -29,7 +33,13 @@ void DeltaDoreX2Driver::init(const char* devName)
 
 void DeltaDoreX2Driver::acknowledgment(const AcknowledgmentEvent& evt)
 {
+    const Acknowledgment ack = evt.getAcknowledgment();
 
+    // at last, release ACK semaphore
+    sem_post(&semAck);
+}
+void DeltaDoreX2Driver::waitAck(){
+    sem_wait(&semAck);
 }
 
 void DeltaDoreX2Driver::endTransaction(const EndTransactionEvent& evt)

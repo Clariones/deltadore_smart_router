@@ -265,6 +265,8 @@
 		<Unit filename="control/Statistic.h" />
 		<Unit filename="diagnostic/DiagnosticOverheatingRequest.h" />
 		<Unit filename="diagnostic/DiagnosticOverheatingResponse.h" />
+		<Unit filename="driver/DataMap.cpp" />
+		<Unit filename="driver/DataMap.h" />
 		<Unit filename="driver/DeltaDoreX2Driver.cpp" />
 		<Unit filename="driver/DeltaDoreX2Driver.h" />
 		<Unit filename="driver/SerialPort.cpp" />
@@ -427,6 +429,10 @@
 		<Unit filename="sensor/TemperatureResponse.h" />
 		<Unit filename="sensor/TemperatureType.cpp" />
 		<Unit filename="sensor/TemperatureType.h" />
+		<Unit filename="test/DataMapTest.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="test/DataMapTest.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -16,6 +16,8 @@
 #include "control/Network.h"
 #include "control/Node.h"
 
+ #include <semaphore.h>
+
 using namespace deltadoreX2d;
 
 class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionListener, public NodeDiscoveredListener
@@ -35,10 +37,12 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
 
     public:
         void init(const char* devName);
+        void waitAck();
 
     private:
         SerialPort device;
         Controller* controller;
+        sem_t semAck;
 };
 
 #endif // DELTADOREX2DRIVER_H
