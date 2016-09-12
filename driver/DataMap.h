@@ -25,7 +25,7 @@ class DataMap
         DataMap(const char* name, const long value);
         DataMap(const char* name, const short value);
         DataMap(const char* name, const bool value);
-        DataMap(const char* name, DataMap& value);
+        DataMap(const char* name, DataMap* value);
 
     public:
         void* getValue();
@@ -38,7 +38,7 @@ class DataMap
         DataMap& setLong(const char*name, const long value);
         DataMap& setShort(const char*name, const short value);
         DataMap& setBool(const char*name, const bool value);
-        DataMap& setDataMap(const char*name, DataMap& value);
+        DataMap& setDataMap(const char*name, DataMap* value);
 
         DataMap& pushString(const char*name, const char* value) throw (const char *);
         DataMap& pushInt(const char*name, const int value) throw (const char *);
@@ -47,7 +47,7 @@ class DataMap
         DataMap& pushLong(const char*name, const long value) throw (const char *);
         DataMap& pushShort(const char*name, const short value) throw (const char *);
         DataMap& pushBool(const char*name, const bool value) throw (const char *) ;
-        DataMap& pushDataMap(const char*name, DataMap& value) throw (const char *);
+        DataMap& pushDataMap(const char*name, DataMap* value) throw (const char *);
 
         const char* getName() { return m_name;}
         const char* getDataType() { return m_dataType;}

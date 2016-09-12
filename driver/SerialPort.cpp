@@ -16,7 +16,7 @@ SerialPort::~SerialPort() {
 }
 
 void SerialPort::init(const char* devName) {
-	int fd = openDevice(devName, O_RDWR | O_NOCTTY);         //| O_NOCTTY | O_NDELAY
+	int fd = openDevice(devName, O_RDWR | O_NOCTTY );         //| O_NOCTTY | O_NDELAY
 	if (-1 == fd) {
 		perror("Can't Open Serial Port");
 		devID = -1;
@@ -41,6 +41,7 @@ void SerialPort::init(const char* devName) {
 	tcflush(fd, TCIOFLUSH);
 
 	// no verify, 8bit, 1 stop
+//	Opt.c_cflag |= (CLOCAL | CREAD);
 	Opt.c_cflag &= ~PARENB;
 	Opt.c_cflag &= ~CSTOPB;
 	Opt.c_cflag &= ~CSIZE;
@@ -51,7 +52,7 @@ void SerialPort::init(const char* devName) {
 	cfsetospeed(&Opt, B38400);
 
 	// read time
-	Opt.c_cc[VTIME] = 10; /* 设置超时15 seconds*/
+	Opt.c_cc[VTIME] = 15; /* 设置超时15 seconds*/
 	Opt.c_cc[VMIN] = 0; /* Update the options and do it NOW */
 
 	// raw mode read/write

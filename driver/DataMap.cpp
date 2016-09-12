@@ -82,7 +82,7 @@ DataMap::DataMap(const char* name, const bool value)
     setBool(name, value);
 }
 
-DataMap::DataMap(const char* name, DataMap& value)
+DataMap::DataMap(const char* name, DataMap* value)
 {
     init();
     setDataMap(name, value);
@@ -180,10 +180,10 @@ DataMap& DataMap::setBool(const char* name, const bool value)
     return *this;
 }
 
-DataMap& DataMap::setDataMap(const char* name, DataMap& value)
+DataMap& DataMap::setDataMap(const char* name, DataMap* value)
 {
     SET_TYPE(name, TYPE_OBJECT);
-    m_value = &value;
+    m_value = value;
     return *this;
 }
 
@@ -234,7 +234,7 @@ DataMap& DataMap::pushBool(const char* name, const bool value) throw (const char
     PUSH(name, value);
 }
 
-DataMap& DataMap::pushDataMap(const char* name, DataMap& value) throw (const char *)
+DataMap& DataMap::pushDataMap(const char* name, DataMap* value) throw (const char *)
 {
     PUSH(name, value);
 }

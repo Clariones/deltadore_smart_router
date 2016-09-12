@@ -84,6 +84,8 @@
 #include "control/CoreThermicSystemCommandRequest.h"
 #include "control/CoreThermicSystemStatusRequest.h"
 
+#include "driver/Utils.h"
+
 namespace deltadoreX2d
 {
 
@@ -655,15 +657,14 @@ void CoreController::run()
     while(!m_jobCancel)
     {
 		int count = m_inputStream->read(&receivedByte, 1);
-
 		if (count <= 0)
 		{ //Timeout detection with non blocking behavior
 			if (idx > 0)
 			{ //Timeout
 				m_stat.incrementTimeoutCount();
+				printf("read timeout\n");
 				idx = 0;
 			}
-
 			Runnable::sleep(); //Suspending thread if necessary
 			continue;
 		}
@@ -682,9 +683,10 @@ void CoreController::run()
 
 		buffer[idx] = receivedByte;
 		idx++;
-
+        printf("buffer[0]=%02X, read %02X, size=%d\n", buffer[0], buffer[idx-1], idx);
 		if (idx == buffer[0]) //Frame length
 		{
+            dumpHex("Received frame", buffer, idx);
 			std::vector<byte> frame(buffer, buffer+idx);
 			idx = 0;
 

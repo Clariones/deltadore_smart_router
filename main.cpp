@@ -8,14 +8,14 @@
 
 int main()
 {
-//    DeltaDoreX2Driver driver;
-//    const char* devName = "/dev/ttyUSB0";
-//    driver.init(devName);
-//    CommandLineTool tool;
-//
-//    tool.init(&driver);
-//    driver.waitAck();
-//    tool.run();
+    DeltaDoreX2Driver driver;
+    const char* devName = "/dev/ttyUSB0";
+    driver.init(devName);
+    CommandLineTool tool;
+
+    tool.init(&driver);
+    driver.waitAck();
+    tool.run();
 /*     const char* ppp = "this is a test";
  *     strcmp(ppp, ppp);
  *
@@ -39,14 +39,6 @@ int main()
  *     }
  */
 
-    DataMap dList;
-    dList.pushBool("bool", true);
-    dList.pushInt("int", 1000);
-    dList.pushString("name", "This is a list");
-
-
-    dList.pushDataMap("son1", *(new DataMap("sub_string", "sub_string")));
-    dList.pushDataMap("son2", *(new DataMap("sub_int", 1000)));
     return 0;
 }
 

@@ -1,4 +1,5 @@
 #include "clt/CmdGetTopology.h"
+#include "driver/cJSON.h"
 
 CmdGetTopology::CmdGetTopology()
 {
@@ -11,10 +12,9 @@ CmdGetTopology::~CmdGetTopology()
 }
 void CmdGetTopology::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
 {
-    char* buffer = new char[1024];
-    pDriver->getTopology(buffer, 1024);
-    printf("%s\n", buffer);
-    delete(buffer);
+    cJSON* pResponse = pDriver->getTopology();
+    printf("%s\n", cJSON_Print(pResponse));
+    delete(pResponse);
 }
 
 const char* CmdGetTopology::getSummary()
@@ -24,5 +24,5 @@ const char* CmdGetTopology::getSummary()
 
 const char* CmdGetTopology::getCmdKey()
 {
-    return "showNetwork";
+    return "getTopology";
 }

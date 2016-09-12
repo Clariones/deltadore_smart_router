@@ -8,9 +8,9 @@ int openDevice(const char* devName, int options){
 
 ssize_t readDevice (int fd, void *buf, size_t nbytes){
     ssize_t n = read(fd, buf, nbytes);
-    if (n > 0){
-        dumpHex("Read", buf, n);
-    }
+//    if (n > 0){
+//        dumpHex("Read", buf, n);
+//    }
     return n;
 }
 ssize_t writeDevice (int fd, const void *buf, size_t n){
@@ -22,6 +22,7 @@ int closeDevice(int fd){
 }
 
 void dumpHex(const char* prefix, const void* pData, int size){
+    const unsigned char* pByte = (const unsigned char*)pData;
     for(int i=0;i<size;i++){
         if (i % 32 == 0){
             if (i == 0){
@@ -32,9 +33,7 @@ void dumpHex(const char* prefix, const void* pData, int size){
         }else if (i % 16 == 0){
             printf("  ");
         }
-        printf(" %02X", ((const unsigned char*)pData)[i]);
+        printf(" %02X", pByte[i]);
     }
-    if (size % 32 != 0){
-        printf("\n");
-    }
+    printf("\n");
 }

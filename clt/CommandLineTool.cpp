@@ -1,6 +1,10 @@
 #include "clt/CommandLineTool.h"
 
 #include "clt/CmdGetTopology.h"
+#include "clt/CmdQueryRollershutterStatus.h"
+#include "clt/CmdControlRollerShutter.h"
+#include "clt/CmdDeleteNode.h"
+#include "clt/CmdRegisterNode.h"
 
 #ifndef NULL
 #define NULL (void*)0
@@ -22,6 +26,12 @@ void CommandLineTool::init(DeltaDoreX2Driver* pDriver)
     m_handlerNum = 0;
     m_pHandlers = (ICommandHandler**)malloc(100*sizeof(ICommandHandler*));
     m_pHandlers[m_handlerNum++] = new CmdGetTopology();
+    m_pHandlers[m_handlerNum++] = new CmdRegisterNode();
+    m_pHandlers[m_handlerNum++] = new CmdDeleteNode();
+    m_pHandlers[m_handlerNum++] = new CmdControlRollerShutter();
+    m_pHandlers[m_handlerNum++] = new CmdQueryRollershutterStatus();
+
+
 }
 
 

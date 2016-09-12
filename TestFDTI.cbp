@@ -44,8 +44,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="clt/CmdControlRollerShutter.cpp" />
+		<Unit filename="clt/CmdControlRollerShutter.h" />
+		<Unit filename="clt/CmdDeleteNode.cpp" />
+		<Unit filename="clt/CmdDeleteNode.h" />
 		<Unit filename="clt/CmdGetTopology.cpp" />
 		<Unit filename="clt/CmdGetTopology.h" />
+		<Unit filename="clt/CmdQueryRollershutterStatus.cpp" />
+		<Unit filename="clt/CmdQueryRollershutterStatus.h" />
+		<Unit filename="clt/CmdRegisterNode.cpp" />
+		<Unit filename="clt/CmdRegisterNode.h" />
 		<Unit filename="clt/CommandHandler.h" />
 		<Unit filename="clt/CommandLineTool.cpp" />
 		<Unit filename="clt/CommandLineTool.h" />
@@ -267,12 +275,16 @@
 		<Unit filename="diagnostic/DiagnosticOverheatingResponse.h" />
 		<Unit filename="driver/DataMap.cpp" />
 		<Unit filename="driver/DataMap.h" />
+		<Unit filename="driver/DeltaDoreDeviceInfo.cpp" />
+		<Unit filename="driver/DeltaDoreDeviceInfo.h" />
 		<Unit filename="driver/DeltaDoreX2Driver.cpp" />
 		<Unit filename="driver/DeltaDoreX2Driver.h" />
 		<Unit filename="driver/SerialPort.cpp" />
 		<Unit filename="driver/SerialPort.h" />
 		<Unit filename="driver/Utils.cpp" />
 		<Unit filename="driver/Utils.h" />
+		<Unit filename="driver/cJSON.cpp" />
+		<Unit filename="driver/cJSON.h" />
 		<Unit filename="hvac/FunctioningModeMessage.h" />
 		<Unit filename="hvac/HeatingLevelMessage.h" />
 		<Unit filename="hvac/HeatingMode.cpp" />
