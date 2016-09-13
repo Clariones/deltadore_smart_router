@@ -26,16 +26,18 @@ void CmdControlRollerShutter::handle(const char* pCmd, DeltaDoreX2Driver* pDrive
     }else if (!strcmp(option, "stop")){
         pResponse = pDriver->stopRollerShutter(network, node);
     }else {
-        printf("%s\n", cJSON_Print(pResponse));
+        printf("action %s not valid, usage:\n[help]\t%s\n",option, getSummary());
     }
+
     if (pResponse != NULL){
+        printf("%s\n", cJSON_Print(pResponse));
         delete(pResponse);
     }
 }
 
 const char* CmdControlRollerShutter::getSummary()
 {
-    return "controlRollerShutter <network> <node> <action>\n[help]\t\toption: up, down, stop, up-slow, down-slow";
+    return "controlRollerShutter <network> <node> <action>\n[help]\t\taction: up, down, stop, up-slow, down-slow";
 }
 
 const char* CmdControlRollerShutter::getCmdKey()

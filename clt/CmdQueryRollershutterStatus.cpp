@@ -1,4 +1,4 @@
-#include "CmdQueryRollershutterStatus.h"
+#include "clt/CmdQueryRollershutterStatus.h"
 
 CmdQueryRollershutterStatus::CmdQueryRollershutterStatus()
 {

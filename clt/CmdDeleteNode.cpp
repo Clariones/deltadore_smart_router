@@ -20,7 +20,7 @@ void CmdDeleteNode::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
 
 const char* CmdDeleteNode::getSummary()
 {
-    return "deleteNode <network> <node>\n[help]\t\tQuery device status";
+    return "deleteNode <network> <node>\n[help]\t\tDelete node from network";
 }
 
 const char* CmdDeleteNode::getCmdKey()

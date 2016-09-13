@@ -10,7 +10,10 @@
 #include "control/Response.h"
 #include "control/Request.h"
 #include "rollershutter/RollerShutterStatusResponse.h"
+#include "rollershutter/RollerShutterInfoResponse.h"
 #include "rollershutter/RollerShutterCommandArg.h"
+#include "light/LightCommandArg.h"
+#include "light/LightStatusResponse.h"
 #include "control/NodeDiscoveredEvent.h"
 #include "control/Controller.h"
 #include "control/Factory.h"
@@ -45,7 +48,12 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
     // command interfaces
     public:
         cJSON* getTopology();
+
+        cJSON* deleteNode(int network, int node);
+        cJSON* registerNode(int network);
+
         cJSON* queryRollerShutterStatus(int network, int node);
+        cJSON* queryRollerShutterInfo(int network, int node);
         cJSON* controlRollerShutter(int network, int node, const RollerShutterCommandArg& action);
         cJSON* openRollerShutter(int network, int node) { return controlRollerShutter(network, node, RollerShutterCommandArg::UP);}
         cJSON* openRollerShutterSlowly(int network, int node) { return controlRollerShutter(network, node, RollerShutterCommandArg::UP_SLOW);}
@@ -53,8 +61,20 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         cJSON* closeRollerShutterSlowly(int network, int node) { return controlRollerShutter(network, node, RollerShutterCommandArg::DOWN_SLOW);}
         cJSON* stopRollerShutter(int network, int node) { return controlRollerShutter(network, node, RollerShutterCommandArg::STOP);}
 
-        cJSON* deleteNode(int network, int node);
-        cJSON* registerNode(int network);
+        cJSON* queryLightStatus(int network, int node);
+        cJSON* controlLight(int network, int node, const LightCommandArg& action);
+        cJSON* setLightLevel(int network, int node, int level);
+        cJSON* switchOffLight(int network, int node){ return controlLight(network, node, LightCommandArg::DOWN);}
+        cJSON* switchOnLight(int network, int node){ return controlLight(network, node, LightCommandArg::UP);}
+        cJSON* stopLight(int network, int node){ return controlLight(network, node, LightCommandArg::STOP);}
+        cJSON* rampUpLight(int network, int node){ return controlLight(network, node, LightCommandArg::UP_SLOW);}
+        cJSON* ramDownLight(int network, int node){ return controlLight(network, node, LightCommandArg::DOWN_SLOW);}
+        cJSON* preset1Light(int network, int node){ return controlLight(network, node, LightCommandArg::GO_FAVORITE_1);}
+        cJSON* alarmPairingLight(int network, int node){ return controlLight(network, node, LightCommandArg::ALARM_PAIRING);}
+        cJSON* standOutLight(int network, int node){ return controlLight(network, node, LightCommandArg::STAND_OUT);}
+        cJSON* preset2Light(int network, int node){ return controlLight(network, node, LightCommandArg::GO_FAVORITE_2);}
+        cJSON* toggleLight(int network, int node){ return controlLight(network, node, LightCommandArg::TOGGLE);}
+
 
     public:
         void init(const char* devName);
@@ -62,17 +82,17 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
 
     protected:
         void onRollerShutterStatusResponse(RollerShutterStatusResponse& response);
+        void onRollerShutterInfoResponse(RollerShutterInfoResponse& response);
+        void onLightStatusResponse(LightStatusResponse& response);
+
         DeltaDoreDeviceInfo* getDeviceInfo(int network, int node);
+        Network* checkNetwork(int network, char * errMsg, int msgLen);
+        bool checkNode(Network* pNetwork, int node, char* errMsg, int msgLen);
+        Request * createRequest(RequestClass reqClass);
+        void beginTransaction(Request* req);
 
         RequestClass getContextRequestClass() { return contextRequestClass;}
-        void setContextRequestClass(RequestClass reqClass) {
-            contextRequestClass=reqClass;
-            if (contextRequestClass == CurrentConsumptionRequest_t){
-                contextResponseClass = ThermicSystemStatusResponse_t;
-            }else{
-                contextResponseClass=CurrentConsumptionResponse_t;
-            }
-        }
+        void setContextRequestClass(RequestClass reqClass);
         ResponseClass getContextResponseClass() { return contextResponseClass;}
         void setContextResponseClass(ResponseClass resClass) { contextResponseClass=resClass;}
 

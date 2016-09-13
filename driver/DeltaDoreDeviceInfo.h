@@ -2,6 +2,8 @@
 #define DELTADOREDEVICEINFO_H
 
 #include "control/ResponseStatus.h"
+#include "rollershutter/RollerShutterActuatorType.h"
+
 using namespace deltadoreX2d;
 
 class DeltaDoreDeviceInfo
@@ -47,8 +49,28 @@ class DeltaDoreDeviceInfo
         int getPosition() {return m_position;}
         void setPosition(int value) {m_position = value;}
 
+        void setOverloadFaulty(bool value) { m_isOverloadFaulty=value;}
+        bool isOverloadFaulty() { return m_isOverloadFaulty;}
+
+        void setCommandFaulty(bool value) { m_isCommandFaulty=value;}
+        bool isCommandFaulty() { return m_isCommandFaulty;}
+
+        void setPresenceDetected(bool value) { m_isPresenceDetected=value;}
+        bool isPresenceDetected() { return m_isPresenceDetected;}
+
+        void setTwilight(bool value) { m_isTwilight=value;}
+        bool isTwilight() { return m_isTwilight;}
+
+        void setChannelCount(int value) { m_channelCount = value;}
+        int getChannelCount() {return m_channelCount;}
+
+        RollerShutterActuatorType getActuatorType() {return RollerShutterActuatorType::valueOf(m_actuatorType);}
+        void setActuatorType(const RollerShutterActuatorType& atype) { m_actuatorType = atype.toInt();}
+
     protected:
         int m_deviceType;
+        int m_lstResponseStatus;
+
         bool m_favoritePosition;
         bool m_intrusionDetected;
         bool m_loweringFaulty;
@@ -57,7 +79,14 @@ class DeltaDoreDeviceInfo
         bool m_raisingFaulty;
         int m_level;
         int m_position;
-        int m_lstResponseStatus;
+
+        int m_channelCount;
+        int m_actuatorType;
+
+        bool m_isOverloadFaulty;
+        bool m_isCommandFaulty;
+        bool m_isPresenceDetected;
+        bool m_isTwilight;
     private:
 };
 

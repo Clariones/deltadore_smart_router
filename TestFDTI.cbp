@@ -44,12 +44,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="clt/CmdControlLight.cpp" />
+		<Unit filename="clt/CmdControlLight.h" />
 		<Unit filename="clt/CmdControlRollerShutter.cpp" />
 		<Unit filename="clt/CmdControlRollerShutter.h" />
 		<Unit filename="clt/CmdDeleteNode.cpp" />
 		<Unit filename="clt/CmdDeleteNode.h" />
 		<Unit filename="clt/CmdGetTopology.cpp" />
 		<Unit filename="clt/CmdGetTopology.h" />
+		<Unit filename="clt/CmdQueryLight.cpp" />
+		<Unit filename="clt/CmdQueryLight.h" />
 		<Unit filename="clt/CmdQueryRollershutterStatus.cpp" />
 		<Unit filename="clt/CmdQueryRollershutterStatus.h" />
 		<Unit filename="clt/CmdRegisterNode.cpp" />

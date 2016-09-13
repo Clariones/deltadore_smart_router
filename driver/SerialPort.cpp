@@ -46,14 +46,30 @@ void SerialPort::init(const char* devName) {
 	Opt.c_cflag &= ~CSTOPB;
 	Opt.c_cflag &= ~CSIZE;
 	Opt.c_cflag |= CS8;
+	Opt.c_cflag |= CREAD;
 
 	// baud rate 38400
 	cfsetispeed(&Opt, B38400);
 	cfsetospeed(&Opt, B38400);
 
 	// read time
-	Opt.c_cc[VTIME] = 15; /* 设置超时15 seconds*/
+	Opt.c_cc[VTIME] = 10; /* 设置超时1 seconds*/
 	Opt.c_cc[VMIN] = 0; /* Update the options and do it NOW */
+    Opt.c_cc[VINTR]    = 1;     /* Ctrl-c */
+    Opt.c_cc[VQUIT]    = 0;     /* Ctrl-\ */
+    Opt.c_cc[VERASE]   = 0;     /* del */
+    Opt.c_cc[VKILL]    = 0;     /* @ */
+    Opt.c_cc[VEOF]     = 0;     /* Ctrl-d */
+    Opt.c_cc[VSWTC]    = 0;     /* '\0' */
+    Opt.c_cc[VSTART]   = 0;     /* Ctrl-q */
+    Opt.c_cc[VSTOP]    = 0;     /* Ctrl-s */
+    Opt.c_cc[VSUSP]    = 0;     /* Ctrl-z */
+    Opt.c_cc[VEOL]     = 0;     /* '\0' */
+    Opt.c_cc[VREPRINT] = 0;     /* Ctrl-r */
+    Opt.c_cc[VDISCARD] = 0;     /* Ctrl-u */
+    Opt.c_cc[VWERASE]  = 0;     /* Ctrl-w */
+    Opt.c_cc[VLNEXT]   = 0;     /* Ctrl-v */
+    Opt.c_cc[VEOL2]    = 0;     /* '\0' */
 
 	// raw mode read/write
 	Opt.c_lflag  &= ~(ICANON | ECHO | ECHOE | ISIG);  /*Input*/
