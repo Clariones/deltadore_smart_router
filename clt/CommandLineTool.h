@@ -24,7 +24,7 @@ class CommandLineTool
 
     protected:
         DeltaDoreX2Driver* m_pDriver;
-        ICommandHandler** m_pHandlers;
+        static ICommandHandler* m_pHandlers[];
         int m_handlerNum;
 };
 

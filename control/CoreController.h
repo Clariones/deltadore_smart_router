@@ -93,6 +93,7 @@ class CoreController : public Runnable, public virtual MeshController, public vi
         std::vector<CoreNetwork> m_networks;
         Codec* m_codec;
 		RecursiveLock m_lock;
+		bool m_isPrintReadByte;
 };
 }
 

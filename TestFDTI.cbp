@@ -54,6 +54,8 @@
 		<Unit filename="clt/CmdGetTopology.h" />
 		<Unit filename="clt/CmdQueryLight.cpp" />
 		<Unit filename="clt/CmdQueryLight.h" />
+		<Unit filename="clt/CmdQueryRollershutterInfo.cpp" />
+		<Unit filename="clt/CmdQueryRollershutterInfo.h" />
 		<Unit filename="clt/CmdQueryRollershutterStatus.cpp" />
 		<Unit filename="clt/CmdQueryRollershutterStatus.h" />
 		<Unit filename="clt/CmdRegisterNode.cpp" />

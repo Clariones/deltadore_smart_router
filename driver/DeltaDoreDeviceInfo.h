@@ -3,6 +3,7 @@
 
 #include "control/ResponseStatus.h"
 #include "rollershutter/RollerShutterActuatorType.h"
+#include "light/LightActuatorType.h"
 
 using namespace deltadoreX2d;
 
@@ -64,8 +65,15 @@ class DeltaDoreDeviceInfo
         void setChannelCount(int value) { m_channelCount = value;}
         int getChannelCount() {return m_channelCount;}
 
-        RollerShutterActuatorType getActuatorType() {return RollerShutterActuatorType::valueOf(m_actuatorType);}
-        void setActuatorType(const RollerShutterActuatorType& atype) { m_actuatorType = atype.toInt();}
+        RollerShutterActuatorType getRollerShutterActuatorType() {return RollerShutterActuatorType::valueOf(m_rollerShutterActuatorType);}
+        void setRollerShutterActuatorType(const RollerShutterActuatorType& atype) { m_rollerShutterActuatorType = atype.toInt();}
+
+        LightActuatorType getLightActuatorType() {return LightActuatorType::valueOf(m_lightActuatorType);}
+        void setLightActuatorType(const LightActuatorType& atype) { m_lightActuatorType = atype.toInt();}
+
+
+        void setMulticolor(bool value) { m_isMulticolor=value;}
+        bool isMulticolor() { return m_isMulticolor;}
 
     protected:
         int m_deviceType;
@@ -81,12 +89,15 @@ class DeltaDoreDeviceInfo
         int m_position;
 
         int m_channelCount;
-        int m_actuatorType;
+        int m_rollerShutterActuatorType;
 
         bool m_isOverloadFaulty;
         bool m_isCommandFaulty;
         bool m_isPresenceDetected;
         bool m_isTwilight;
+
+        bool m_isMulticolor;
+        int m_lightActuatorType;
     private:
 };
 

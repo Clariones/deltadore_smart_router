@@ -32,6 +32,7 @@ public:
 	virtual int read(void* buffer, int size);
 	virtual int write(void* buffer, int size);
 	virtual void close();
+	bool initSuccess() { return devID > 0;}
 protected:
 	void send(unsigned char * data, int size);
 	int readOne();

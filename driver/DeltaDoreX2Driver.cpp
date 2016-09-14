@@ -39,7 +39,10 @@ DeltaDoreX2Driver::DeltaDoreX2Driver()
 DeltaDoreX2Driver::~DeltaDoreX2Driver()
 {
     //dtor
-    controller->close();
+    if (controller != NULL){
+        printf("Close controller\n");
+        controller->close();
+    }
     sem_destroy(&semAck);
 }
 void DeltaDoreX2Driver::init(const char* devName)
@@ -55,6 +58,10 @@ void DeltaDoreX2Driver::init(const char* devName)
     }
     // init serial port device
     device.init(devName);
+    if (!device.initSuccess()){
+        printf("Device %s initial failed\n", devName);
+        return;
+    }
     Controller* ctrl = Factory::createController();
     ctrl->addAcknowledgmentListener(this);
     MeshController* meshctrl = ctrl->convert<MeshController*>();
@@ -117,6 +124,8 @@ void DeltaDoreX2Driver::endTransaction(const EndTransactionEvent& evt)
             printf("Response is LightColorResponse_t\n");
         }else if (resp->instanceOf(LightInfoResponse_t)){
             printf("Response is LightInfoResponse_t\n");
+            LightInfoResponse* lightResp = resp->convert<LightInfoResponse*>();
+            onLightInfoResponse(*lightResp);
         }else if (resp->instanceOf(RollerShutterInfoResponse_t)){
             printf("Response is RollerShutterInfoResponse_t\n");
             RollerShutterInfoResponse* shutterResp = resp->convert<RollerShutterInfoResponse*>();
@@ -215,7 +224,7 @@ void DeltaDoreX2Driver::onRollerShutterInfoResponse(RollerShutterInfoResponse& r
     device->setLastResponseStatus(response.getStatus());
 
     device->setChannelCount(response.getChannelCount());
-    device->setActuatorType(response.getActuatorType());
+    device->setRollerShutterActuatorType(response.getActuatorType());
 }
 void DeltaDoreX2Driver::onLightStatusResponse(LightStatusResponse& response)
 {
@@ -233,6 +242,17 @@ void DeltaDoreX2Driver::onLightStatusResponse(LightStatusResponse& response)
     device->setTwilight(response.isTwilight());
 
 }
+void DeltaDoreX2Driver::onLightInfoResponse(LightInfoResponse& response)
+{
+    DeltaDoreDeviceInfo* device = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
+    setContextResponseClass(LightInfoResponse_t);
+    device->setDeviceType(DeltaDoreDeviceInfo::DEVICE_TYPE_LIGHT);
+    device->setLastResponseStatus(response.getStatus());
+
+    device->setChannelCount(response.getChannelCount());
+    device->setLightActuatorType(response.getActuatorType());
+    device->setMulticolor(response.isMulticolor());
+}
 
 
 void DeltaDoreX2Driver::nodeDiscovered(const NodeDiscoveredEvent& evt)
@@ -240,6 +260,16 @@ void DeltaDoreX2Driver::nodeDiscovered(const NodeDiscoveredEvent& evt)
     printf("In network %d found node %d\n", evt.getNetwork()->getIdentifier(), evt.getNode().toInt());
 }
 
+cJSON* DeltaDoreX2Driver::debugPrintRead(bool enablePrint)
+{
+    char buffer[10];
+    cJSON* root=cJSON_CreateObject();
+//    ((CoreController*)controller)->m_isPrintReadByte = enablePrint;
+    CoreController* pCtrl = controller->convert<CoreController*>();
+    pCtrl->m_isPrintReadByte = enablePrint;
+    SIMPLE_SUCCESS_RESPONSE(root);
+    return root;
+}
 /**
  * return JSON format should be like this:
  * {   "message":"success"|"<any other message>",
@@ -447,7 +477,7 @@ cJSON* DeltaDoreX2Driver::queryRollerShutterInfo(int network, int node)
 
     cJSON_AddStringToObject(pData, "responseStatus", device->getLastResponseStatus().toString().c_str());
     cJSON_AddNumberToObject(pData, "channelCount", device->getChannelCount());
-    cJSON_AddStringToObject(pData, "actuatorType", device->getActuatorType().toString().c_str());
+    cJSON_AddStringToObject(pData, "actuatorType", device->getRollerShutterActuatorType().toString().c_str());
 
     return root;
 
@@ -502,13 +532,6 @@ cJSON* DeltaDoreX2Driver::queryLightStatus(int network, int node)
         return root;
     }
 
-//    SIMPLE_SUCCESS_RESPONSE(root);
-//    if (getContextResponseClass() != LightStatusResponse_t)
-//    {
-//        SIMPLE_ERROR_RESPONSE(root, "No response");
-//        return root;
-//    }
-
     DeltaDoreDeviceInfo* device = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
     ResponseStatus status = device->getLastResponseStatus();
     if (status != ResponseStatus::OK)
@@ -534,6 +557,46 @@ cJSON* DeltaDoreX2Driver::queryLightStatus(int network, int node)
 
 }
 
+cJSON* DeltaDoreX2Driver::queryLightInfo(int network, int node)
+{
+    cJSON* root=cJSON_CreateObject();
+    PREPARE_REQUEST(root, network, node);
+
+    Request *req = createRequest(LightInfoRequest_t);
+    req->setNetwork(net);
+    req->addNode(Node::valueOf(node), LightCommandArg::NA);
+
+    beginTransaction(req);
+    waitAck();
+
+
+
+    if (!acked)
+    {
+        SIMPLE_ERROR_RESPONSE(root, "Response negative");
+        return root;
+    }
+
+    DeltaDoreDeviceInfo* device = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
+    ResponseStatus status = device->getLastResponseStatus();
+    if (status != ResponseStatus::OK)
+    {
+        SIMPLE_ERROR_RESPONSE(root, status.toString().c_str());
+        return root;
+    }
+
+    SIMPLE_SUCCESS_RESPONSE(root);
+    cJSON* pData=cJSON_CreateObject();
+    cJSON_AddItemToObject(root, "data", pData);
+
+    cJSON_AddStringToObject(pData, "responseStatus", device->getLastResponseStatus().toString().c_str());
+    cJSON_AddNumberToObject(pData, "channelCount", device->getChannelCount());
+    cJSON_AddStringToObject(pData, "actuatorType", device->getLightActuatorType().toString().c_str());
+    cJSON_AddBoolToObject(pData, "multicolor", device->isMulticolor());
+
+    return root;
+
+}
 
 cJSON* DeltaDoreX2Driver::controlLight(int network, int node, const LightCommandArg& action)
 {

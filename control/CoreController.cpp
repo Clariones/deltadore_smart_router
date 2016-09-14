@@ -683,7 +683,9 @@ void CoreController::run()
 
 		buffer[idx] = receivedByte;
 		idx++;
-        printf("buffer[0]=%02X, read %02X, size=%d\n", buffer[0], buffer[idx-1], idx);
+		if (m_isPrintReadByte){
+            printf("buffer[0]=%02X, read %02X, size=%d\n", buffer[0], buffer[idx-1], idx);
+		}
 		if (idx == buffer[0]) //Frame length
 		{
             dumpHex("Received frame", buffer, idx);

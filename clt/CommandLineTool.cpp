@@ -8,6 +8,8 @@
 #include "clt/CmdRegisterNode.h"
 #include "clt/CmdControlLight.h"
 #include "clt/CmdQueryLight.h"
+#include "clt/CmdQueryLightInfo.h"
+#include "clt/CmdDebugSetShowRead.h"
 
 #ifndef NULL
 #define NULL (void*)0
@@ -33,6 +35,18 @@ static bool startsWith(const char* wholeString, const char* prefix)
     }
 }
 
+ICommandHandler* CommandLineTool::m_pHandlers[] = {
+    new CmdGetTopology(),
+    new CmdRegisterNode(),
+    new CmdDeleteNode(),
+    new CmdControlLight(),
+    new CmdQueryLight(),
+    new CmdQueryLightInfo(),
+    new CmdControlRollerShutter(),
+    new CmdQueryRollershutterStatus(),
+    new CmdQueryRollershutterInfo(),
+    new CmdDebugSetShowRead()
+};
 
 CommandLineTool::CommandLineTool()
 {
@@ -47,17 +61,18 @@ CommandLineTool::~CommandLineTool()
 void CommandLineTool::init(DeltaDoreX2Driver* pDriver)
 {
     m_pDriver = pDriver;
-    m_handlerNum = 0;
-    m_pHandlers = (ICommandHandler**)malloc(100*sizeof(ICommandHandler*));
-    m_pHandlers[m_handlerNum++] = new CmdGetTopology();
-    m_pHandlers[m_handlerNum++] = new CmdRegisterNode();
-    m_pHandlers[m_handlerNum++] = new CmdDeleteNode();
-    m_pHandlers[m_handlerNum++] = new CmdControlLight();
-    m_pHandlers[m_handlerNum++] = new CmdQueryLight();
-    m_pHandlers[m_handlerNum++] = new CmdControlRollerShutter();
-    m_pHandlers[m_handlerNum++] = new CmdQueryRollershutterStatus();
-    m_pHandlers[m_handlerNum++] = new CmdQueryRollershutterInfo();
-
+//    m_handlerNum = 0;
+//    m_pHandlers = (ICommandHandler**)malloc(100*sizeof(ICommandHandler*));
+//    m_pHandlers[m_handlerNum++] = new CmdGetTopology();
+//    m_pHandlers[m_handlerNum++] = new CmdRegisterNode();
+//    m_pHandlers[m_handlerNum++] = new CmdDeleteNode();
+//    m_pHandlers[m_handlerNum++] = new CmdControlLight();
+//    m_pHandlers[m_handlerNum++] = new CmdQueryLight();
+//    m_pHandlers[m_handlerNum++] = new CmdQueryLightInfo();
+//    m_pHandlers[m_handlerNum++] = new CmdControlRollerShutter();
+//    m_pHandlers[m_handlerNum++] = new CmdQueryRollershutterStatus();
+//    m_pHandlers[m_handlerNum++] = new CmdQueryRollershutterInfo();
+    m_handlerNum = sizeof(m_pHandlers)/sizeof(m_pHandlers[0]);
 
 }
 
@@ -133,5 +148,6 @@ void CommandLineTool::showHelp()
         pHandler = m_pHandlers[i];
         printf("[%s]\t%s :\n[help]\t\t%s\n", "help", pHandler->getCmdKey(), pHandler->getSummary());
     }
+    printf("[help]\texit:\n[help]\t\tclose device and exit program\n");
 }
 

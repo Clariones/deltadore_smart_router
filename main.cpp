@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 
 #include "driver/DeltaDoreX2Driver.h"
 #include "clt/CommandLineTool.h"
@@ -6,11 +6,19 @@
 
 #include "driver/DataMap.h"
 
-int main()
+int main(int argc, char ** argv)
 {
+    if (argc < 2){
+        printf("Must input device name.\nFor example:\n\tTestFDTI /dev/ttyUSB0\n\n");
+        return 2;
+    }
     DeltaDoreX2Driver driver;
-    const char* devName = "/dev/ttyUSB0";
+    const char* devName = argv[1];
     driver.init(devName);
+    if (!driver.initSuccess()){
+        printf("DeltaDore Driver init failed.\n");
+        return 3;
+    }
     CommandLineTool tool;
 
     tool.init(&driver);

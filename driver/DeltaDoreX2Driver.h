@@ -14,6 +14,7 @@
 #include "rollershutter/RollerShutterCommandArg.h"
 #include "light/LightCommandArg.h"
 #include "light/LightStatusResponse.h"
+#include "light/LightInfoResponse.h"
 #include "control/NodeDiscoveredEvent.h"
 #include "control/Controller.h"
 #include "control/Factory.h"
@@ -62,6 +63,7 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         cJSON* stopRollerShutter(int network, int node) { return controlRollerShutter(network, node, RollerShutterCommandArg::STOP);}
 
         cJSON* queryLightStatus(int network, int node);
+        cJSON* queryLightInfo(int network, int node);
         cJSON* controlLight(int network, int node, const LightCommandArg& action);
         cJSON* setLightLevel(int network, int node, int level);
         cJSON* switchOffLight(int network, int node){ return controlLight(network, node, LightCommandArg::DOWN);}
@@ -75,15 +77,18 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         cJSON* preset2Light(int network, int node){ return controlLight(network, node, LightCommandArg::GO_FAVORITE_2);}
         cJSON* toggleLight(int network, int node){ return controlLight(network, node, LightCommandArg::TOGGLE);}
 
+        cJSON* debugPrintRead(bool enablePrint);
 
     public:
         void init(const char* devName);
         void waitAck();
+        bool initSuccess() { return device.initSuccess() && controller != NULL;}
 
     protected:
         void onRollerShutterStatusResponse(RollerShutterStatusResponse& response);
         void onRollerShutterInfoResponse(RollerShutterInfoResponse& response);
         void onLightStatusResponse(LightStatusResponse& response);
+        void onLightInfoResponse(LightInfoResponse& response);
 
         DeltaDoreDeviceInfo* getDeviceInfo(int network, int node);
         Network* checkNetwork(int network, char * errMsg, int msgLen);
@@ -112,6 +117,7 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         int contextRequestNetwork;
         int contextRequestNode;
         DeltaDoreDeviceInfo* allDeviceInfo[MAX_NETWORK_NUM][MAX_NODE_NUM];
+
 };
 
 #endif // DELTADOREX2DRIVER_H

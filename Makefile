@@ -5,15 +5,15 @@ CPP	= c++
 GCC	= gcc
 RM	= rm -f
 INC	= -I.
-LIBS =  
+LIBS 	= -lc -lm -lpthread -ldl
 CP	= /bin/cp
 
 CFLAGS = -fPIC -O2 -fno-builtin 
 
-ARCH = -m32
+ARCH = -m64
 
 VERSION = 1
-TARGET = libdeltadore.so
+TARGET = TestFDTI.out
 
 all:$(TARGET)
 OBJECTS = common/CommonSettingArg.o\
@@ -159,10 +159,28 @@ OBJECTS = common/CommonSettingArg.o\
 	remote/VariationCommand.o\
 	rollershutter/RollerShutterSettingArg.o\
 	rollershutter/RollerShutterActuatorType.o\
-	rollershutter/RollerShutterCommandArg.o
+	rollershutter/RollerShutterCommandArg.o\
+	driver/cJSON.o\
+	driver/DataMap.o\
+	driver/DeltaDoreDeviceInfo.o\
+	driver/DeltaDoreX2Driver.o\
+	driver/SerialPort.o\
+	driver/Utils.o\
+	clt/CmdControlLight.o\
+	clt/CmdControlRollerShutter.o\
+	clt/CmdDeleteNode.o\
+	clt/CmdGetTopology.o\
+	clt/CmdQueryLight.o\
+	clt/CmdQueryLightInfo.o\
+	clt/CmdQueryRollershutterInfo.o\
+	clt/CmdQueryRollershutterStatus.o\
+	clt/CmdRegisterNode.o\
+	clt/CommandLineTool.o\
+	clt/CmdDebugSetShowRead.o\
+	main.o
 
 $(TARGET):$(OBJECTS)
-	$(CPP) $(ARCH) -shared -Wl,-soname,$(TARGET) $(CFLAGS)  -O2 -o $@ $(OBJECTS) -lc -lm
+	$(CPP) $(ARCH) -Wl,-soname,$(TARGET) $(CFLAGS)  -O2 -o $@ $(OBJECTS) $(LIBS)
 
 
 install:$(TARGET)
