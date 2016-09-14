@@ -14,7 +14,7 @@ void CmdGetTopology::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
 {
     cJSON* pResponse = pDriver->getTopology();
     printf("%s\n", cJSON_Print(pResponse));
-    delete(pResponse);
+    cJSON_Delete(pResponse);
 }
 
 const char* CmdGetTopology::getSummary()

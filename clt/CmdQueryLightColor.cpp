@@ -1,15 +1,15 @@
-#include "clt/CmdQueryLight.h"
+#include "clt/CmdQueryLightColor.h"
 
-CmdQueryLight::CmdQueryLight()
+CmdQueryLightColor::CmdQueryLightColor()
 {
     //ctor
 }
 
-CmdQueryLight::~CmdQueryLight()
+CmdQueryLightColor::~CmdQueryLightColor()
 {
     //dtor
 }
-void CmdQueryLight::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
+void CmdQueryLightColor::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
 {
     int network, node;
     scanf("%d %d", &network, &node);
@@ -18,12 +18,12 @@ void CmdQueryLight::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
     cJSON_Delete(pResponse);
 }
 
-const char* CmdQueryLight::getSummary()
+const char* CmdQueryLightColor::getSummary()
 {
     return "queryLightStatus <network> <node>\n[help]\t\tQuery light device status";
 }
 
-const char* CmdQueryLight::getCmdKey()
+const char* CmdQueryLightColor::getCmdKey()
 {
     return "queryLightStatus";
 }

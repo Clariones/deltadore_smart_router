@@ -1443,12 +1443,12 @@
 1339076032 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/hvac/HeatingMode.h
 	"requirement.h"
 
-1473819242 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
+1473826260 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
 	"assert.h"
 	"driver/DeltaDoreX2Driver.h"
 	"rollershutter/RollerShutterCommandArg.h"
 
-1473825192 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.h
+1473828638 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.h
 	"requirement.h"
 	"driver/SerialPort.h"
 	"driver/cJSON.h"
@@ -1462,6 +1462,7 @@
 	"light/LightCommandArg.h"
 	"light/LightStatusResponse.h"
 	"light/LightInfoResponse.h"
+	"light/LightColorResponse.h"
 	"control/NodeDiscoveredEvent.h"
 	"control/Controller.h"
 	"control/Factory.h"
@@ -1483,7 +1484,7 @@
 	<errno.h>
 	"requirement.h"
 
-1473761623 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/SerialPort.cpp
+1473826328 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/SerialPort.cpp
 	"driver/SerialPort.h"
 	"driver/Utils.h"
 
@@ -1501,7 +1502,7 @@
 1473761779 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/Utils.cpp
 	"Utils.h"
 
-1473644625 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdGetTopology.cpp
+1473827149 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdGetTopology.cpp
 	"clt/CmdGetTopology.h"
 	"driver/cJSON.h"
 
@@ -1513,7 +1514,7 @@
 	"control/Controller.h"
 	"driver/DeltaDoreX2Driver.h"
 
-1473818881 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CommandLineTool.cpp
+1473826669 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CommandLineTool.cpp
 	"clt/CommandLineTool.h"
 	"clt/CmdGetTopology.h"
 	"clt/CmdQueryRollershutterStatus.h"
@@ -1523,6 +1524,8 @@
 	"clt/CmdRegisterNode.h"
 	"clt/CmdControlLight.h"
 	"clt/CmdQueryLight.h"
+	"clt/CmdControlLightColor.h"
+	"clt/CmdQueryLightColor.h"
 	"clt/CmdQueryLightInfo.h"
 	"clt/CmdDebugSetShowRead.h"
 
@@ -1551,19 +1554,19 @@
 	<ctype.h>
 	"driver/cJSON.h"
 
-1473745093 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryRollershutterStatus.cpp
+1473827163 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryRollershutterStatus.cpp
 	"clt/CmdQueryRollershutterStatus.h"
 
 1473645444 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryRollershutterStatus.h
 	"clt/CommandHandler.h"
 
-1473745267 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdDeleteNode.cpp
+1473827146 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdDeleteNode.cpp
 	"CmdDeleteNode.h"
 
 1473649198 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdDeleteNode.h
 	"clt/CommandHandler.h"
 
-1473651593 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdRegisterNode.cpp
+1473827166 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdRegisterNode.cpp
 	"CmdRegisterNode.h"
 
 1473651671 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdRegisterNode.h
@@ -1572,44 +1575,56 @@
 1473653929 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreDeviceInfo.cpp
 	"driver/DeltaDoreDeviceInfo.h"
 
-1473817376 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreDeviceInfo.h
+1473828108 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreDeviceInfo.h
 	"control/ResponseStatus.h"
 	"rollershutter/RollerShutterActuatorType.h"
 	"light/LightActuatorType.h"
 
-1473763427 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlRollerShutter.cpp
+1473827140 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlRollerShutter.cpp
 	"CmdControlRollerShutter.h"
 
 1473678114 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlRollerShutter.h
 	"clt/CommandHandler.h"
 
-1473763419 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlLight.cpp
+1473827137 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlLight.cpp
 	"CmdControlLight.h"
 
 1473738278 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlLight.h
 	"clt/CommandHandler.h"
 
-1473745127 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLight.cpp
+1473827152 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLight.cpp
 	"clt/CmdQueryLight.h"
 
 1473744988 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLight.h
 	"clt/CommandHandler.h"
 
-1473762943 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryRollershutterInfo.cpp
+1473827160 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryRollershutterInfo.cpp
 	"clt/CmdQueryRollershutterInfo.h"
 
 1473762027 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryRollershutterInfo.h
 	"clt/CommandHandler.h"
 
-1473818154 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLightInfo.cpp
+1473827157 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLightInfo.cpp
 	"clt/CmdQueryLightInfo.h"
 
 1473815595 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLightInfo.h
 	"clt/CommandHandler.h"
 
-1473819334 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdDebugSetShowRead.cpp
+1473827143 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdDebugSetShowRead.cpp
 	"CmdDebugSetShowRead.h"
 
 1473819121 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdDebugSetShowRead.h
 	"clt/CommandHandler.h"
+
+1473826525 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlLightColor.h
+	"clt/CommandHandler.h"
+
+1473826523 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLightColor.h
+	"clt/CommandHandler.h"
+
+1473828627 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdControlLightColor.cpp
+	"CmdControlLightColor.h"
+
+1473827154 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLightColor.cpp
+	"clt/CmdQueryLightColor.h"
 

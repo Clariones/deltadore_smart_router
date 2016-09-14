@@ -18,7 +18,7 @@ SerialPort::~SerialPort() {
 void SerialPort::init(const char* devName) {
 	int fd = openDevice(devName, O_RDWR | O_NOCTTY );         //| O_NOCTTY | O_NDELAY
 	if (-1 == fd) {
-		perror("Can't Open Serial Port");
+		perror("Can't Open Serial Port device");
 		devID = -1;
 		return;
 	} else {

@@ -15,7 +15,7 @@ void CmdQueryLightInfo::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
     scanf("%d %d", &network, &node);
     cJSON* pResponse = pDriver->queryLightInfo(network, node);
     printf("%s\n", cJSON_Print(pResponse));
-    delete(pResponse);
+    cJSON_Delete(pResponse);
 }
 
 const char* CmdQueryLightInfo::getSummary()

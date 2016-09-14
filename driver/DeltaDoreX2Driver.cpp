@@ -2,6 +2,7 @@
 #include "driver/DeltaDoreX2Driver.h"
 
 #include "rollershutter/RollerShutterCommandArg.h"
+#include "light/LightColorArg.h"
 
 using namespace deltadoreX2d;
 using namespace std;
@@ -31,7 +32,7 @@ using namespace std;
 
 
 
-DeltaDoreX2Driver::DeltaDoreX2Driver()
+DeltaDoreX2Driver::DeltaDoreX2Driver() : controller(NULL), acked(false)
 {
     //ctor
 }
@@ -122,6 +123,8 @@ void DeltaDoreX2Driver::endTransaction(const EndTransactionEvent& evt)
             onLightStatusResponse(*lightResp);
         }else if (resp->instanceOf(LightColorResponse_t)){
             printf("Response is LightColorResponse_t\n");
+            LightColorResponse* lightResp = resp->convert<LightColorResponse*>();
+            onLightColorResponse(*lightResp);
         }else if (resp->instanceOf(LightInfoResponse_t)){
             printf("Response is LightInfoResponse_t\n");
             LightInfoResponse* lightResp = resp->convert<LightInfoResponse*>();
@@ -240,7 +243,6 @@ void DeltaDoreX2Driver::onLightStatusResponse(LightStatusResponse& response)
     device->setFavoritePosition(response.isFavoritePosition());
     device->setPresenceDetected(response.isPresenceDetected());
     device->setTwilight(response.isTwilight());
-
 }
 void DeltaDoreX2Driver::onLightInfoResponse(LightInfoResponse& response)
 {
@@ -253,6 +255,18 @@ void DeltaDoreX2Driver::onLightInfoResponse(LightInfoResponse& response)
     device->setLightActuatorType(response.getActuatorType());
     device->setMulticolor(response.isMulticolor());
 }
+void DeltaDoreX2Driver::onLightColorResponse(LightColorResponse& response)
+{
+    DeltaDoreDeviceInfo* device = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
+    setContextResponseClass(LightInfoResponse_t);
+    device->setDeviceType(DeltaDoreDeviceInfo::DEVICE_TYPE_LIGHT);
+    device->setLastResponseStatus(response.getStatus());
+
+    device->setColorRed(response.getRedValue());
+    device->setColorBlue(response.getBlueValue());
+    device->setColorGreen(response.getGreenValue());
+
+}
 
 
 void DeltaDoreX2Driver::nodeDiscovered(const NodeDiscoveredEvent& evt)
@@ -262,7 +276,6 @@ void DeltaDoreX2Driver::nodeDiscovered(const NodeDiscoveredEvent& evt)
 
 cJSON* DeltaDoreX2Driver::debugPrintRead(bool enablePrint)
 {
-    char buffer[10];
     cJSON* root=cJSON_CreateObject();
 //    ((CoreController*)controller)->m_isPrintReadByte = enablePrint;
     CoreController* pCtrl = controller->convert<CoreController*>();
@@ -637,3 +650,86 @@ cJSON* DeltaDoreX2Driver::setLightLevel(int network, int node, int level)
     }
     return controlLight(network, node, LightCommandArg::percent(correctLevel));
 }
+
+
+#define CHECK_COLOR(root, c)                                             \
+    if ((c) < 0 || (c) > 255){                                           \
+        cJSON_AddNumberToObject(root, "input " #c, c);                   \
+        SIMPLE_ERROR_RESPONSE(root, "Color " #c " should be [0,255]");   \
+        return root;                                                     \
+    }
+
+cJSON* DeltaDoreX2Driver::setLightColor(int network, int node, int red, int green, int blue)
+{
+    cJSON* root=cJSON_CreateObject();
+    CHECK_COLOR(root, red);
+    CHECK_COLOR(root, green);
+    CHECK_COLOR(root, blue);
+
+    PREPARE_REQUEST(root, network, node);
+
+    Request *req = createRequest(LightSetColorRequest_t);
+    req->setNetwork(net);
+    req->addNode(Node::valueOf(node), new LightColorArg(red, green, blue));
+
+    beginTransaction(req);
+    waitAck();
+
+    if (!acked)
+    {
+        SIMPLE_ERROR_RESPONSE(root, "Response negative");
+        return root;
+    }
+    DeltaDoreDeviceInfo* device = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
+    ResponseStatus status = device->getLastResponseStatus();
+    if (status != ResponseStatus::OK)
+    {
+        SIMPLE_ERROR_RESPONSE(root, status.toString().c_str());
+        return root;
+    }
+
+    SIMPLE_SUCCESS_RESPONSE(root);
+    return root;
+}
+#undef CHECK_COLOR
+
+cJSON* DeltaDoreX2Driver::queryLightColor(int network, int node)
+{
+    cJSON* root=cJSON_CreateObject();
+    PREPARE_REQUEST(root, network, node);
+
+    Request *req = createRequest(LightGetColorRequest_t);
+    req->setNetwork(net);
+    req->addNode(Node::valueOf(node), NodeArg::NONE);
+
+    beginTransaction(req);
+    waitAck();
+
+
+
+    if (!acked)
+    {
+        SIMPLE_ERROR_RESPONSE(root, "Response negative");
+        return root;
+    }
+
+    DeltaDoreDeviceInfo* device = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
+    ResponseStatus status = device->getLastResponseStatus();
+    if (status != ResponseStatus::OK)
+    {
+        SIMPLE_ERROR_RESPONSE(root, status.toString().c_str());
+        return root;
+    }
+
+    SIMPLE_SUCCESS_RESPONSE(root);
+    cJSON* pData=cJSON_CreateObject();
+    cJSON_AddItemToObject(root, "data", pData);
+
+    cJSON_AddStringToObject(pData, "responseStatus", device->getLastResponseStatus().toString().c_str());
+    cJSON_AddBoolToObject(pData, "colorRed", device->getColorRed());
+    cJSON_AddBoolToObject(pData, "colorGreen", device->getColorGreen());
+    cJSON_AddBoolToObject(pData, "colorBlue", device->getColorBlue());
+
+    return root;
+}
+

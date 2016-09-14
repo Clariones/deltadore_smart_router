@@ -15,6 +15,7 @@
 #include "light/LightCommandArg.h"
 #include "light/LightStatusResponse.h"
 #include "light/LightInfoResponse.h"
+#include "light/LightColorResponse.h"
 #include "control/NodeDiscoveredEvent.h"
 #include "control/Controller.h"
 #include "control/Factory.h"
@@ -76,6 +77,8 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         cJSON* standOutLight(int network, int node){ return controlLight(network, node, LightCommandArg::STAND_OUT);}
         cJSON* preset2Light(int network, int node){ return controlLight(network, node, LightCommandArg::GO_FAVORITE_2);}
         cJSON* toggleLight(int network, int node){ return controlLight(network, node, LightCommandArg::TOGGLE);}
+        cJSON* setLightColor(int network, int node, int red, int green, int blue);
+        cJSON* queryLightColor(int network, int node);
 
         cJSON* debugPrintRead(bool enablePrint);
 
@@ -89,6 +92,7 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         void onRollerShutterInfoResponse(RollerShutterInfoResponse& response);
         void onLightStatusResponse(LightStatusResponse& response);
         void onLightInfoResponse(LightInfoResponse& response);
+        void onLightColorResponse(LightColorResponse& response);
 
         DeltaDoreDeviceInfo* getDeviceInfo(int network, int node);
         Network* checkNetwork(int network, char * errMsg, int msgLen);

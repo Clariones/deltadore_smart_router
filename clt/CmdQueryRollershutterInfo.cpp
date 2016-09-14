@@ -16,7 +16,7 @@ void CmdQueryRollershutterInfo::handle(const char* pCmd, DeltaDoreX2Driver* pDri
     scanf("%d %d", &network, &node);
     cJSON* pResponse = pDriver->queryRollerShutterInfo(network, node);
     printf("%s\n", cJSON_Print(pResponse));
-    delete(pResponse);
+    cJSON_Delete(pResponse);
 }
 
 const char* CmdQueryRollershutterInfo::getSummary()

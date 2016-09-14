@@ -31,7 +31,7 @@ void CmdControlRollerShutter::handle(const char* pCmd, DeltaDoreX2Driver* pDrive
 
     if (pResponse != NULL){
         printf("%s\n", cJSON_Print(pResponse));
-        delete(pResponse);
+        cJSON_Delete(pResponse);
     }
 }
 

@@ -71,9 +71,17 @@ class DeltaDoreDeviceInfo
         LightActuatorType getLightActuatorType() {return LightActuatorType::valueOf(m_lightActuatorType);}
         void setLightActuatorType(const LightActuatorType& atype) { m_lightActuatorType = atype.toInt();}
 
-
         void setMulticolor(bool value) { m_isMulticolor=value;}
         bool isMulticolor() { return m_isMulticolor;}
+
+        void setColorRed(int value) { m_colorRed=value;}
+        int getColorRed() { return m_colorRed;}
+
+        void setColorBlue(int value) { m_colorBlue=value;}
+        int getColorBlue() { return m_colorBlue;}
+
+        void setColorGreen(int value) { m_colorGreen=value;}
+        int getColorGreen() { return m_colorGreen;}
 
     protected:
         int m_deviceType;
@@ -98,6 +106,10 @@ class DeltaDoreDeviceInfo
 
         bool m_isMulticolor;
         int m_lightActuatorType;
+
+        int m_colorRed;
+        int m_colorBlue;
+        int m_colorGreen;
     private:
 };
 

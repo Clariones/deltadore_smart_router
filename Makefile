@@ -167,10 +167,12 @@ OBJECTS = common/CommonSettingArg.o\
 	driver/SerialPort.o\
 	driver/Utils.o\
 	clt/CmdControlLight.o\
+	clt/CmdControlLightColor.o\
 	clt/CmdControlRollerShutter.o\
 	clt/CmdDeleteNode.o\
 	clt/CmdGetTopology.o\
 	clt/CmdQueryLight.o\
+	clt/CmdQueryLightColor.o\
 	clt/CmdQueryLightInfo.o\
 	clt/CmdQueryRollershutterInfo.o\
 	clt/CmdQueryRollershutterStatus.o\

@@ -8,6 +8,8 @@
 #include "clt/CmdRegisterNode.h"
 #include "clt/CmdControlLight.h"
 #include "clt/CmdQueryLight.h"
+#include "clt/CmdControlLightColor.h"
+#include "clt/CmdQueryLightColor.h"
 #include "clt/CmdQueryLightInfo.h"
 #include "clt/CmdDebugSetShowRead.h"
 
@@ -41,6 +43,8 @@ ICommandHandler* CommandLineTool::m_pHandlers[] = {
     new CmdDeleteNode(),
     new CmdControlLight(),
     new CmdQueryLight(),
+    new CmdControlLightColor(),
+    new CmdQueryLightColor(),
     new CmdQueryLightInfo(),
     new CmdControlRollerShutter(),
     new CmdQueryRollershutterStatus(),
@@ -101,17 +105,17 @@ void CommandLineTool::run()
                 printf("%s not recognized as a valid command. Please try \"help\"", cmdBuffer);
                 continue;
             }
+
             if (foundCandidates == 1){
                 handler = candidates[0];
                 printf("execute command %s\n", handler->getCmdKey());
-                handler->handle(cmdBuffer, m_pDriver);
+            }else{
+                printf("%s cannot be recognized as unified command, do you mean:\n");
+                for(int i=0;i<foundCandidates;i++){
+                    printf("\t%s\n", candidates[i]->getCmdKey());
+                }
                 continue;
             }
-            printf("%s cannot be recognized as unified command, do you mean:\n");
-            for(int i=0;i<foundCandidates;i++){
-                printf("\t%s\n", candidates[i]->getCmdKey());
-            }
-            continue;
         }
         handler->handle(cmdBuffer, m_pDriver);
     }

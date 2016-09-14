@@ -41,7 +41,7 @@ void CmdControlLight::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
 
     if (pResponse != NULL){
         printf("%s\n", cJSON_Print(pResponse));
-        delete(pResponse);
+        cJSON_Delete(pResponse);
     }
 }
 

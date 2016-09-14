@@ -16,7 +16,7 @@ void CmdRegisterNode::handle(const char* pCmd, DeltaDoreX2Driver* pDriver)
     scanf("%d", &network);
     cJSON* pResponse = pDriver->registerNode(network);
     printf("%s\n", cJSON_Print(pResponse));
-    delete(pResponse);
+    cJSON_Delete(pResponse);
 }
 
 const char* CmdRegisterNode::getSummary()
