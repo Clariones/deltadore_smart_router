@@ -22,7 +22,6 @@ int main(int argc, char ** argv)
     CommandLineTool tool;
 
     tool.init(&driver);
-    driver.waitAck();
     tool.run();
 /*     const char* ppp = "this is a test";
  *     strcmp(ppp, ppp);

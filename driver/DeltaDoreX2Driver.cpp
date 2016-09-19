@@ -32,6 +32,10 @@ using namespace std;
 
 
 
+static const char * DEVICE_TYPE_NAME_LIGHT = "light";
+static const char * DEVICE_TYPE_NAME_ROLLERSHUTTER = "rollerShutter";
+static const char * DEVICE_TYPE_NAME_UNKNOWN = "unknown";
+
 DeltaDoreX2Driver::DeltaDoreX2Driver() : controller(NULL), acked(false)
 {
     //ctor
@@ -72,6 +76,36 @@ void DeltaDoreX2Driver::init(const char* devName)
     ctrl->open(&device, &device);
     meshctrl->initNetworks();
     controller = ctrl;
+
+    waitAck();
+//    tryToGetDeviceType();
+    int nn = meshctrl->getNetworkCount();
+    for(int i = 0; i < nn; i++)
+    {
+        Network* pNetwork = meshctrl->getNetwork(i);
+        if (pNetwork == NULL)
+        {
+            continue;
+        }
+
+        vector<Node> nodes = pNetwork->getTopology();
+        vector<Node>::iterator it;
+        for(it=nodes.begin(); it != nodes.end(); it++)
+        {
+            Node node = *it;
+            int deviceType = tryToGetDeviceType(i, node.toInt());
+            switch (deviceType){
+            case DeltaDoreDeviceInfo::DEVICE_TYPE_LIGHT:
+                printf("Node %d in network %d is %s\n", node.toInt(), i, DEVICE_TYPE_NAME_LIGHT);
+                break;
+            case DeltaDoreDeviceInfo::DEVICE_TYPE_ROLLER_SHUTTER:
+                printf("Node %d in network %d is %s\n", node.toInt(), i, DEVICE_TYPE_NAME_ROLLERSHUTTER);
+                break;
+            default:
+                printf("Node %d in network %d is %s\n", node.toInt(), i, DEVICE_TYPE_NAME_UNKNOWN);
+            }
+        }
+    }
 }
 
 void DeltaDoreX2Driver::acknowledgment(const AcknowledgmentEvent& evt)
@@ -81,7 +115,7 @@ void DeltaDoreX2Driver::acknowledgment(const AcknowledgmentEvent& evt)
     acked = (ack == Acknowledgment::ACK);
 
     // at last, release ACK semaphore
-    if (ack == Acknowledgment::ACK || ack==Acknowledgment::PRE_ACK)
+    if (ack == Acknowledgment::ACK || ack==Acknowledgment::NACK)
     {
         sem_post(&semAck);
     }
@@ -272,6 +306,43 @@ void DeltaDoreX2Driver::onLightColorResponse(LightColorResponse& response)
 void DeltaDoreX2Driver::nodeDiscovered(const NodeDiscoveredEvent& evt)
 {
     printf("In network %d found node %d\n", evt.getNetwork()->getIdentifier(), evt.getNode().toInt());
+    setContextRequestNetwork(evt.getNetwork()->getIdentifier());
+    setContextRequestNode(evt.getNode().toInt());
+}
+
+int DeltaDoreX2Driver::tryToGetDeviceType(int network, int node)
+{
+    MeshController* mCtrl = controller->convert<MeshController*>();
+    Network* pNetwork = mCtrl->getNetwork(network);
+    acked = false;
+    setContextRequestNetwork(network);
+    setContextRequestNode(node);
+    Request* pRequest = createRequest(LightStatusRequest_t);
+    pRequest->setNetwork(pNetwork);
+    pRequest->addNode(Node::valueOf(node), LightCommandArg::NA);
+    beginTransaction(pRequest);
+
+    waitAck();
+    DeltaDoreDeviceInfo* pDevice = getDeviceInfo(network, node);
+    if (pDevice->getLastResponseStatus() == ResponseStatus::OK){
+        delete pRequest;
+        return DeltaDoreDeviceInfo::DEVICE_TYPE_LIGHT;
+    }
+
+    pRequest = createRequest(RollerShutterStatusRequest_t);
+    pRequest->setNetwork(pNetwork);
+    pRequest->addNode(Node::valueOf(node), RollerShutterCommandArg::NA);
+    beginTransaction(pRequest);
+
+    waitAck();
+    pDevice = getDeviceInfo(network, node);
+    if (pDevice->getLastResponseStatus() == ResponseStatus::OK){
+        delete pRequest;
+        return DeltaDoreDeviceInfo::DEVICE_TYPE_ROLLER_SHUTTER;
+    }
+
+    delete pRequest;
+    return DeltaDoreDeviceInfo::DEVICE_TYPE_UNKNOWN;
 }
 
 cJSON* DeltaDoreX2Driver::debugPrintRead(bool enablePrint)
@@ -313,7 +384,7 @@ cJSON* DeltaDoreX2Driver::getTopology()
     cJSON_AddItemToObject(root, "data", pResponseData);
 
 
-
+    DeltaDoreDeviceInfo* pDevice;
     for(int i = 0; i < nn; i++)
     {
         Network* pNetwork = ctrl->getNetwork(i);
@@ -334,7 +405,19 @@ cJSON* DeltaDoreX2Driver::getTopology()
             snprintf(buffer, sizeof(buffer)-1, "%d", node.toInt());
             cJSON* pNodeData=cJSON_CreateObject();
             cJSON_AddNumberToObject(pNodeData, "id", node.toInt());
-            cJSON_AddStringToObject(pNodeData, "name", "unknown");
+            pDevice = getDeviceInfo(i, node.toInt());
+            switch (pDevice->getDeviceType()){
+            case DeltaDoreDeviceInfo::DEVICE_TYPE_LIGHT:
+                cJSON_AddStringToObject(pNodeData, "type", DEVICE_TYPE_NAME_LIGHT);
+                cJSON_AddNumberToObject(pNodeData, "level", pDevice->getLevel());
+                break;
+            case DeltaDoreDeviceInfo::DEVICE_TYPE_ROLLER_SHUTTER:
+                cJSON_AddStringToObject(pNodeData, "type", DEVICE_TYPE_NAME_ROLLERSHUTTER);
+                cJSON_AddNumberToObject(pNodeData, "position", pDevice->getPosition());
+                break;
+            default:
+                cJSON_AddStringToObject(pNodeData, "type", DEVICE_TYPE_NAME_UNKNOWN);
+            }
 
             cJSON_AddItemToArray(pNetWorkData, pNodeData);
 
@@ -383,6 +466,8 @@ cJSON* DeltaDoreX2Driver::registerNode(int network)
         SIMPLE_ERROR_RESPONSE(root, errMsg);
         return root;
     }
+    setContextRequestNetwork(network);
+    setContextRequestNode(-1);
     pNetwork->startNodeDiscovery(true);
     acked = false;
     waitAck();
@@ -390,11 +475,48 @@ cJSON* DeltaDoreX2Driver::registerNode(int network)
 
     if (!acked)
     {
+        SIMPLE_ERROR_RESPONSE(root, "Negative response");
+        return root;
+    }
+
+    int node = getContextRequestNode();
+    if (node < 0){
         SIMPLE_ERROR_RESPONSE(root, "No response");
         return root;
     }
 
     SIMPLE_SUCCESS_RESPONSE(root);
+    cJSON* pData=cJSON_CreateObject();
+    cJSON_AddItemToObject(root, "data", pData);
+    cJSON_AddNumberToObject(pData, "network", network);
+    cJSON_AddNumberToObject(pData, "node", node);
+    int deviceType = tryToGetDeviceType(network, node);
+    DeltaDoreDeviceInfo* device = getDeviceInfo(network, node);
+    switch (deviceType){
+    case DeltaDoreDeviceInfo::DEVICE_TYPE_LIGHT:
+        cJSON_AddStringToObject(pData, "responseStatus", device->getLastResponseStatus().toString().c_str());
+        cJSON_AddNumberToObject(pData, "level", device->getLevel());
+        cJSON_AddBoolToObject(pData, "overloadFaulty", device->isOverloadFaulty());
+        cJSON_AddBoolToObject(pData, "commandFaulty", device->isCommandFaulty());
+        cJSON_AddBoolToObject(pData, "overheatingFaulty", device->isOverheatingFaulty());
+        cJSON_AddBoolToObject(pData, "favoritePosition", device->isFavoritePosition());
+        cJSON_AddBoolToObject(pData, "presenceDetected", device->isPresenceDetected());
+        cJSON_AddBoolToObject(pData, "twilight", device->isTwilight());
+        break;
+    case DeltaDoreDeviceInfo::DEVICE_TYPE_ROLLER_SHUTTER:
+        cJSON_AddStringToObject(pData, "responseStatus", device->getLastResponseStatus().toString().c_str());
+        cJSON_AddNumberToObject(pData, "position", device->getPosition());
+        cJSON_AddBoolToObject(pData, "favoritePosition", device->isFavoritePosition());
+        cJSON_AddBoolToObject(pData, "intrusionDetected", device->isIntrusionDetected());
+        cJSON_AddBoolToObject(pData, "loweringFaulty", device->isLoweringFaulty());
+        cJSON_AddBoolToObject(pData, "obstacleFaulty", device->isObstacleFaulty());
+        cJSON_AddBoolToObject(pData, "overheatingFaulty", device->isOverheatingFaulty());
+        cJSON_AddBoolToObject(pData, "raisingFaulty", device->isRaisingFaulty());
+        break;
+    default:
+        SIMPLE_ERROR_RESPONSE(root, "unsupported device type");
+        break;
+    }
     return root;
 }
 

@@ -88,18 +88,24 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         bool initSuccess() { return device.initSuccess() && controller != NULL;}
 
     protected:
+        // callbacks
         void onRollerShutterStatusResponse(RollerShutterStatusResponse& response);
         void onRollerShutterInfoResponse(RollerShutterInfoResponse& response);
         void onLightStatusResponse(LightStatusResponse& response);
         void onLightInfoResponse(LightInfoResponse& response);
         void onLightColorResponse(LightColorResponse& response);
 
+        // internal functions
+        int tryToGetDeviceType(int network, int node);
+
+        // command handling common functions
         DeltaDoreDeviceInfo* getDeviceInfo(int network, int node);
         Network* checkNetwork(int network, char * errMsg, int msgLen);
         bool checkNode(Network* pNetwork, int node, char* errMsg, int msgLen);
         Request * createRequest(RequestClass reqClass);
         void beginTransaction(Request* req);
 
+        // member getter and setters
         RequestClass getContextRequestClass() { return contextRequestClass;}
         void setContextRequestClass(RequestClass reqClass);
         ResponseClass getContextResponseClass() { return contextResponseClass;}

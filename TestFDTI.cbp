@@ -46,14 +46,22 @@
 		</Compiler>
 		<Unit filename="clt/CmdControlLight.cpp" />
 		<Unit filename="clt/CmdControlLight.h" />
+		<Unit filename="clt/CmdControlLightColor.cpp" />
+		<Unit filename="clt/CmdControlLightColor.h" />
 		<Unit filename="clt/CmdControlRollerShutter.cpp" />
 		<Unit filename="clt/CmdControlRollerShutter.h" />
+		<Unit filename="clt/CmdDebugSetShowRead.cpp" />
+		<Unit filename="clt/CmdDebugSetShowRead.h" />
 		<Unit filename="clt/CmdDeleteNode.cpp" />
 		<Unit filename="clt/CmdDeleteNode.h" />
 		<Unit filename="clt/CmdGetTopology.cpp" />
 		<Unit filename="clt/CmdGetTopology.h" />
 		<Unit filename="clt/CmdQueryLight.cpp" />
 		<Unit filename="clt/CmdQueryLight.h" />
+		<Unit filename="clt/CmdQueryLightColor.cpp" />
+		<Unit filename="clt/CmdQueryLightColor.h" />
+		<Unit filename="clt/CmdQueryLightInfo.cpp" />
+		<Unit filename="clt/CmdQueryLightInfo.h" />
 		<Unit filename="clt/CmdQueryRollershutterInfo.cpp" />
 		<Unit filename="clt/CmdQueryRollershutterInfo.h" />
 		<Unit filename="clt/CmdQueryRollershutterStatus.cpp" />
