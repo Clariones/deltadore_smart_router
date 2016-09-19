@@ -168,7 +168,7 @@ void DeltaDoreX2Driver::endTransaction(const EndTransactionEvent& evt)
             RollerShutterInfoResponse* shutterResp = resp->convert<RollerShutterInfoResponse*>();
             onRollerShutterInfoResponse(*shutterResp);
         }else {
-            printf("Response is unknown\n");
+            printf("Response is CoreResponse\n");
             DeltaDoreDeviceInfo* pDevice = getDeviceInfo(getContextRequestNetwork(), getContextRequestNode());
             pDevice->setLastResponseStatus(resp->getStatus());
         }
@@ -531,7 +531,7 @@ cJSON* DeltaDoreX2Driver::queryRollerShutterStatus(int network, int node)
 
     beginTransaction(req);
     waitAck();
-
+    delete req;
 
 
     if (!acked)
@@ -582,7 +582,7 @@ cJSON* DeltaDoreX2Driver::queryRollerShutterInfo(int network, int node)
 
     beginTransaction(req);
     waitAck();
-
+    delete req;
 
 
     if (!acked)
@@ -629,6 +629,7 @@ cJSON* DeltaDoreX2Driver::controlRollerShutter(int network, int node, const Roll
 
     beginTransaction(req);
     waitAck();
+    delete req;
 
     if (!acked)
     {
@@ -658,7 +659,7 @@ cJSON* DeltaDoreX2Driver::queryLightStatus(int network, int node)
 
     beginTransaction(req);
     waitAck();
-
+    delete req;
 
 
     if (!acked)
@@ -703,7 +704,7 @@ cJSON* DeltaDoreX2Driver::queryLightInfo(int network, int node)
 
     beginTransaction(req);
     waitAck();
-
+    delete req;
 
 
     if (!acked)
@@ -744,6 +745,7 @@ cJSON* DeltaDoreX2Driver::controlLight(int network, int node, const LightCommand
 
     beginTransaction(req);
     waitAck();
+    delete req;
 
     if (!acked)
     {
@@ -796,6 +798,7 @@ cJSON* DeltaDoreX2Driver::setLightColor(int network, int node, int red, int gree
 
     beginTransaction(req);
     waitAck();
+    delete req;
 
     if (!acked)
     {
@@ -826,7 +829,7 @@ cJSON* DeltaDoreX2Driver::queryLightColor(int network, int node)
 
     beginTransaction(req);
     waitAck();
-
+    delete req;
 
 
     if (!acked)
