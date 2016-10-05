@@ -1,0 +1,69 @@
+<#include "/common/CopyRights.jstl"/>
+#include "${h_file_name}"
+
+#define CMD_NAME "${command_name}"
+
+${class_name}::${class_name}(){
+}
+
+${class_name}::~${class_name}(){
+}
+
+const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
+<#if command_config.hasNetwork>
+    int network;
+</#if>
+<#if command_config.hasNode>
+    int node;
+</#if>
+    // first string always the command, so just skip it
+    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
+    
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+<#if command_config.hasNetwork>
+    getParamInt(pCurrentParam, &network);
+    if (!isValidNetwork(network)){
+        return newWrongIntParamResponse("Invalid network number %d", network);
+    }
+    <#if command_config.hasNode>
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+    </#if>
+</#if>
+<#if command_config.hasNode>
+    getParamInt(pCurrentParam, &node);
+    if (!isValidNode(node)){
+        return newWrongIntParamResponse("Invalid node number %d", node);
+    }
+</#if>
+
+    cJSON* pResponse = pDriver->${command_config.apiName}(<@compress single_line=true>
+		<#if command_config.hasNetwork>
+		    network
+		    <#if command_config.hasNode>
+		    	,
+		    <#else>
+		    	);
+		    </#if>
+		</#if>
+		<#if command_config.hasNode>
+		    node);
+		</#if>
+    </@compress>
+    
+    return newResponse(pResponse);
+}
+
+const char * ${class_name}::getCommandName(){
+    return CMD_NAME;
+}
+
+const char * ${class_name}::getUsage(){
+    return "${usage}";
+}
+
+#undefine CMD_NAME

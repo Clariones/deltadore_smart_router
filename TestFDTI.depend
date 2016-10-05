@@ -514,7 +514,7 @@
 1339076036 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/light/LightSettingArg.cpp
 	"light/LightSettingArg.h"
 
-1473825354 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/main.cpp
+1474267123 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/main.cpp
 	<stdio.h>
 	"driver/DeltaDoreX2Driver.h"
 	"clt/CommandLineTool.h"
@@ -1443,12 +1443,13 @@
 1339076032 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/hvac/HeatingMode.h
 	"requirement.h"
 
-1473826260 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
+1474268939 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
 	"assert.h"
 	"driver/DeltaDoreX2Driver.h"
 	"rollershutter/RollerShutterCommandArg.h"
+	"light/LightColorArg.h"
 
-1473828638 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.h
+1474266058 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.h
 	"requirement.h"
 	"driver/SerialPort.h"
 	"driver/cJSON.h"

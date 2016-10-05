@@ -1,0 +1,78 @@
+{
+	outputFolder: "testoutput/fdti/cpp",
+	templateBaseFolder: "testinput/template",
+	subFolder : "udpCmdHandler",
+	configs: [
+		{
+			name: "control light",
+			template: "ApiMapping",
+			description: "Control light devices",
+			hasNetwork: true,
+			hasNode: true,
+			paramName: "option",
+			mapping: {
+				"off" : "switchOffLight",
+				"on": "switchOnLight",
+				"ram-up" : "rampUpLight",
+				"ram-down" : "ramDownLight",
+				"stop" : "stopLight",
+				"stand-out" : "standOutLight",
+				"alarm-pairing" : "alarmPairingLight",
+				"toggle" : "toggleLight",
+				"preset-1" : "preset1Light",
+				"preset-2" : "preset2Light"
+			}			
+		},
+		{
+			name: "control light color",
+			template: "SimpleApi",
+			description: "Control light color",
+			apiName : "setLightColor",
+			hasNetwork: true,
+			hasNode: true,
+			params : [
+				{
+					paramName: "red",
+					type : "int",
+					note: "red value of the color",
+					range: [0, 255]
+				},
+				{
+					paramName: "green",
+					type : "int",
+					note: "green value of the color",
+					range: [0, 255]
+				},
+				{
+					paramName: "blue",
+					type : "int",
+					note: "blue value of the color",
+					range: [0, 255]
+				}
+			]
+		},
+		{
+			name: "control roller shutter",
+			template: "ApiMapping",
+			description: "control roller-shutter device",
+			hasNetwork: true,
+			hasNode: true,
+			paramName: "option",
+			mapping: {
+				"up" : "openRollerShutter",
+				"down": "closeRollerShutter",
+				"up-slow" : "openRollerShutterSlowly",
+				"down-slow" : "closeRollerShutterSlowly",
+				"stop" : "stopRollerShutter"
+			}
+		},
+		{
+			name: "register node",
+			template: "NetworkApi",
+			description: "Register a new device into an appointed network",
+			apiName : "registerNode",
+			hasNetwork: true,
+			hasNode: false
+		}
+	]
+}

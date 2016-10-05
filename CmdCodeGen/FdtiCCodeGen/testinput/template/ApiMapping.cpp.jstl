@@ -1,0 +1,85 @@
+<#include "/common/CopyRights.jstl"/>
+#include "${h_file_name}"
+
+#define CMD_NAME "${command_name}"
+#define MAX_OPTION_LENTH ${max_map_param_length}
+
+${class_name}::${class_name}(){
+}
+
+${class_name}::~${class_name}(){
+}
+
+const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
+<#if command_config.hasNetwork>
+    int network;
+</#if>
+<#if command_config.hasNode>
+    int node;
+</#if>
+
+    // first string always the command, so just skip it
+    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
+    
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+<#if command_config.hasNetwork>
+    getParamInt(pCurrentParam, &network);
+    if (!isValidNetwork(network)){
+        return newWrongIntParamResponse("Invalid network number %d", network);
+    }
+    
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+</#if>
+<#if command_config.hasNode>
+    getParamInt(pCurrentParam, &node);
+    if (!isValidNode(node)){
+        return newWrongIntParamResponse("Invalid node number %d", node);
+    }
+    
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+</#if>
+    char* option = new char[strlen(pCurrentParam) + 1];
+    cJSON* pResponse = NULL;
+    getParamString(option);
+    if (strlen(option) >= MAX_OPTION_LENTH){
+        delete option;
+        return newWrongStringParamResponse("invalid ${command_config.paramName} %s", option);
+<#list command_config.mapping?keys as option>
+    } else if (strcmp("${option}", option) == 0 ) {
+        pResponse = pDriver->${command_config.mapping[option]}(<@compress single_line=true>
+	    <#if command_config.hasNetwork>
+		    network<#if command_config.hasNode>, </#if>
+		</#if>
+		<#if command_config.hasNode>
+		    node
+		</#if>);
+	</@compress>
+
+</#list>
+    } else {
+        delete option;
+        return newWrongStringParamResponse("invalid ${command_config.paramName} %s", option);
+    }
+    
+    delete option;
+    return newResponse(pResponse);
+}
+
+const char * ${class_name}::getCommandName(){
+    return CMD_NAME;
+}
+
+const char * ${class_name}::getUsage(){
+    return "${usage}";
+}
+
+#undefine MAX_OPTION_LENTH
+#undefine CMD_NAME
