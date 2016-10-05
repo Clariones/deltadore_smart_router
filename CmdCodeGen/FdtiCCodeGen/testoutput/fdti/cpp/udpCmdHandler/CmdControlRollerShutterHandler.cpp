@@ -1,7 +1,6 @@
 /**
  * File name: CmdControlRollerShutterHandler.cpp
  * Author: Clariones Wang
- * Email: Clariones@163.com
  *
  * All rights reserved.
  */
@@ -16,7 +15,7 @@ CmdControlRollerShutterHandler::CmdControlRollerShutterHandler(){
 CmdControlRollerShutterHandler::~CmdControlRollerShutterHandler(){
 }
 
-void CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
+const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
     int network;
     int node;
 

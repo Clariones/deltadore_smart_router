@@ -1,7 +1,6 @@
 /**
  * File name: CmdControlLightColorHandler.cpp
  * Author: Clariones Wang
- * Email: Clariones@163.com
  *
  * All rights reserved.
  */
@@ -15,7 +14,7 @@ CmdControlLightColorHandler::CmdControlLightColorHandler(){
 CmdControlLightColorHandler::~CmdControlLightColorHandler(){
 }
 
-void CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
+const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
     int network;
     int node;
     int red;

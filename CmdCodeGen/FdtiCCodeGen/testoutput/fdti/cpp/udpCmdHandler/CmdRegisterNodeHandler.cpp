@@ -1,7 +1,6 @@
 /**
  * File name: CmdRegisterNodeHandler.cpp
  * Author: Clariones Wang
- * Email: Clariones@163.com
  *
  * All rights reserved.
  */
@@ -15,7 +14,7 @@ CmdRegisterNodeHandler::CmdRegisterNodeHandler(){
 CmdRegisterNodeHandler::~CmdRegisterNodeHandler(){
 }
 
-void CmdRegisterNodeHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
+const char* CmdRegisterNodeHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
     int network;
     // first string always the command, so just skip it
     const char* pCurrentParam = getNextParamStartPosition(pCmd);;
