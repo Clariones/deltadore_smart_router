@@ -15,6 +15,10 @@ public class Main {
 		BaseGenerator cppWorker = new CppFileGenerator();
 		cppWorker.setConfig(config);
 		cppWorker.run();
+		
+		BaseGenerator headerWorker = new HeaderFileGenerator();
+		headerWorker.setConfig(config);
+		headerWorker.run();
 	}
 
 	

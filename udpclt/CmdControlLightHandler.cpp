@@ -20,8 +20,8 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     int node;
 
     // first string always the command, so just skip it
-    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
-    
+    const char* pCurrentParam = getNextParamStartPosition(pCmd);
+
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -29,7 +29,7 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     if (!isValidNetwork(network)){
         return newWrongIntParamResponse("Invalid network number %d", network);
     }
-    
+
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
@@ -38,14 +38,14 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     if (!isValidNode(node)){
         return newWrongIntParamResponse("Invalid node number %d", node);
     }
-    
+
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
     char* option = new char[strlen(pCurrentParam) + 1];
     cJSON* pResponse = NULL;
-    getParamString(option);
+    getParamString(pCurrentParam, option);
     if (strlen(option) >= MAX_OPTION_LENTH){
         delete option;
         return newWrongStringParamResponse("invalid option %s", option);
@@ -73,7 +73,7 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
         delete option;
         return newWrongStringParamResponse("invalid option %s", option);
     }
-    
+
     delete option;
     return newResponse(pResponse);
 }
@@ -92,5 +92,5 @@ const char * CmdControlLightHandler::getUsage(){
         "        off on ram-up ram-down stop stand-out alarm-pairing toggle preset-1 preset-2";
 }
 
-#undefine MAX_OPTION_LENTH
-#undefine CMD_NAME
+#undef MAX_OPTION_LENTH
+#undef CMD_NAME

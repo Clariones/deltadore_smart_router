@@ -45,7 +45,7 @@ const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2
     }
     char* option = new char[strlen(pCurrentParam) + 1];
     cJSON* pResponse = NULL;
-    getParamString(option);
+    getParamString(pCurrentParam, option);
     if (strlen(option) >= MAX_OPTION_LENTH){
         delete option;
         return newWrongStringParamResponse("invalid option %s", option);
@@ -82,5 +82,5 @@ const char * CmdControlRollerShutterHandler::getUsage(){
         "        up down up-slow down-slow stop";
 }
 
-#undefine MAX_OPTION_LENTH
-#undefine CMD_NAME
+#undef MAX_OPTION_LENTH
+#undef CMD_NAME

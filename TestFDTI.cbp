@@ -11,12 +11,14 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--device /dev/ttyUSB0 --udp_port 1800" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
 					<Add directory="../TestFDTI" />
 					<Add directory="driver" />
 					<Add directory="clt" />
+					<Add directory="udpclt" />
 				</Compiler>
 				<Linker>
 					<Add library="pthread" />
@@ -28,12 +30,14 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="/space/testFdti.properties" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="include" />
 					<Add directory="../TestFDTI" />
 					<Add directory="driver" />
 					<Add directory="clt" />
+					<Add directory="udpclt" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -459,6 +463,16 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="test/DataMapTest.h" />
+		<Unit filename="udpclt/BaseCmdHandler.cpp" />
+		<Unit filename="udpclt/BaseCmdHandler.h" />
+		<Unit filename="udpclt/CmdControlLightHandler.cpp" />
+		<Unit filename="udpclt/CmdControlLightHandler.h" />
+		<Unit filename="udpclt/UdpCmdManager.cpp" />
+		<Unit filename="udpclt/UdpCmdManager.h" />
+		<Unit filename="udpclt/udp_server.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="udpclt/udp_server.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

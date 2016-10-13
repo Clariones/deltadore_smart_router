@@ -1,7 +1,7 @@
 {
 	outputFolder: "testoutput/fdti/cpp",
 	templateBaseFolder: "testinput/template",
-	subFolder : "udpCmdHandler",
+	subFolder : "udpclt",
 	configs: [
 		{
 			name: "control light",

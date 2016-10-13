@@ -514,7 +514,7 @@
 1339076036 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/light/LightSettingArg.cpp
 	"light/LightSettingArg.h"
 
-1474267123 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/main.cpp
+1476156068 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/main.cpp
 	<stdio.h>
 	"driver/DeltaDoreX2Driver.h"
 	"clt/CommandLineTool.h"
@@ -1443,13 +1443,14 @@
 1339076032 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/hvac/HeatingMode.h
 	"requirement.h"
 
-1474268939 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
+1476157004 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
 	"assert.h"
 	"driver/DeltaDoreX2Driver.h"
+	<unistd.h>
 	"rollershutter/RollerShutterCommandArg.h"
 	"light/LightColorArg.h"
 
-1474266058 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.h
+1476156993 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.h
 	"requirement.h"
 	"driver/SerialPort.h"
 	"driver/cJSON.h"
@@ -1515,7 +1516,7 @@
 	"control/Controller.h"
 	"driver/DeltaDoreX2Driver.h"
 
-1473826669 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CommandLineTool.cpp
+1476156806 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CommandLineTool.cpp
 	"clt/CommandLineTool.h"
 	"clt/CmdGetTopology.h"
 	"clt/CmdQueryRollershutterStatus.h"
@@ -1628,4 +1629,42 @@
 
 1473827154 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/clt/CmdQueryLightColor.cpp
 	"clt/CmdQueryLightColor.h"
+
+1474766020 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/udp_server.c
+	"udp_server.h"
+	<winsock2.h>
+	<windows.h>
+	<winsock.h>
+	<errno.h>
+	<netdb.h>
+	<netinet/in.h>
+	<unistd.h>
+	<arpa/inet.h>
+	<sys/socket.h>
+	<sys/wait.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<syslog.h>
+
+1474766020 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/udp_server.h
+
+1476152999 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/UdpCmdManager.cpp
+	"UdpCmdManager.h"
+
+1476152999 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/UdpCmdManager.h
+
+1476177803 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/BaseCmdHandler.cpp
+	"BaseCmdHandler.h"
+
+1476177915 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/BaseCmdHandler.h
+	"driver/DeltaDoreX2Driver.h"
+	"driver/cJSON.h"
+
+1476177823 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/CmdControlLightHandler.cpp
+	"CmdControlLightHandler.h"
+
+1476177507 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/CmdControlLightHandler.h
+	"BaseCmdHandler.h"
 

@@ -1,5 +1,6 @@
 #include "assert.h"
 #include "driver/DeltaDoreX2Driver.h"
+#include <unistd.h>
 
 #include "rollershutter/RollerShutterCommandArg.h"
 #include "light/LightColorArg.h"
@@ -50,8 +51,19 @@ DeltaDoreX2Driver::~DeltaDoreX2Driver()
     }
     sem_destroy(&semAck);
 }
-void DeltaDoreX2Driver::init(const char* devName)
+void DeltaDoreX2Driver::init(const char* devName, const char* storageFile)
 {
+    // check storage file first
+    storageFileName = storageFile;
+    int existed = access(storageFile, 0x06);
+    if (existed < 0){
+        printf("File %s not existed. I will create it myself.\n", storageFile);
+    }else if (existed == 0){
+        printf("File %s existed. I will use it.\n", storageFile);
+        fdStorage = fopen(storageFile, "r");
+        initDeviceNames();
+    }
+    return;
     // self init
     sem_init(&semAck, 0, 0);
     for(int i=0; i<MAX_NETWORK_NUM; i++)
@@ -107,6 +119,16 @@ void DeltaDoreX2Driver::init(const char* devName)
         }
     }
 }
+
+bool DeltaDoreX2Driver::initDeviceNames()
+{
+
+}
+void DeltaDoreX2Driver::saveDeviceNames()
+{
+
+}
+
 
 void DeltaDoreX2Driver::acknowledgment(const AcknowledgmentEvent& evt)
 {

@@ -83,7 +83,7 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         cJSON* debugPrintRead(bool enablePrint);
 
     public:
-        void init(const char* devName);
+        void init(const char* devName, const char* storageFile);
         void waitAck();
         bool initSuccess() { return device.initSuccess() && controller != NULL;}
 
@@ -117,6 +117,10 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         int getContextRequestNode() { return contextRequestNode;}
         void setContextRequestNode(int node) { contextRequestNode = node;}
 
+    protected:
+        bool initDeviceNames();
+        void saveDeviceNames();
+
     private:
         SerialPort device;
         Controller* controller;
@@ -127,6 +131,8 @@ class DeltaDoreX2Driver: public AcknowledgmentListener, public EndTransactionLis
         int contextRequestNetwork;
         int contextRequestNode;
         DeltaDoreDeviceInfo* allDeviceInfo[MAX_NETWORK_NUM][MAX_NODE_NUM];
+        FILE * fdStorage;
+        const char* storageFileName;
 
 };
 

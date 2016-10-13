@@ -48,7 +48,7 @@ const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
 </#if>
     char* option = new char[strlen(pCurrentParam) + 1];
     cJSON* pResponse = NULL;
-    getParamString(option);
+    getParamString(pCurrentParam, option);
     if (strlen(option) >= MAX_OPTION_LENTH){
         delete option;
         return newWrongStringParamResponse("invalid ${command_config.paramName} %s", option);
@@ -81,5 +81,5 @@ const char * ${class_name}::getUsage(){
     return "${usage}";
 }
 
-#undefine MAX_OPTION_LENTH
-#undefine CMD_NAME
+#undef MAX_OPTION_LENTH
+#undef CMD_NAME

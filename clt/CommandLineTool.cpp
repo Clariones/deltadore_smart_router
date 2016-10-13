@@ -110,7 +110,7 @@ void CommandLineTool::run()
                 handler = candidates[0];
                 printf("execute command %s\n", handler->getCmdKey());
             }else{
-                printf("%s cannot be recognized as unified command, do you mean:\n");
+                printf("%s cannot be recognized as unified command, do you mean:\n", cmdBuffer);
                 for(int i=0;i<foundCandidates;i++){
                     printf("\t%s\n", candidates[i]->getCmdKey());
                 }

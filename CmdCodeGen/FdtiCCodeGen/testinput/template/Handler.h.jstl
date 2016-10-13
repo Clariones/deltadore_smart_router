@@ -1,0 +1,22 @@
+<#include "/common/CopyRights.jstl"/>
+
+<#assign HEADER_DEF="__"+class_name?upper_case+"_INCLUDE__"/>
+#ifndef ${HEADER_DEF}
+#define ${HEADER_DEF}
+
+#include "BaseCmdHandler.h"
+
+class ${class_name}: public BaseCmdHandler {
+
+public:
+    ${class_name}();
+    virtual ~${class_name}();
+
+public:
+    virtual const char * handle(const char* pCmd, DeltaDoreX2Driver* pDriver);
+    virtual const char * getCommandName();
+    virtual const char * getUsage();
+
+};
+
+#endif // ${HEADER_DEF}
