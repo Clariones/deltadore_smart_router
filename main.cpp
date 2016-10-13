@@ -2,6 +2,7 @@
 
 #include "driver/DeltaDoreX2Driver.h"
 #include "clt/CommandLineTool.h"
+#include "udpclt/UdpCmdManager.h"
 
 
 #include "driver/DataMap.h"
@@ -69,8 +70,7 @@ int main(int argc, char ** argv)
     printf("Input params:\n\tdevice: %s\n\tudp port: %d\n\tstorage path:%s\n", argDeviceName, argUdpPort, argStoragePath);
 
     DeltaDoreX2Driver driver;
-    const char* devName = argv[1];
-    driver.init(devName, argStoragePath);
+    driver.init(argDeviceName, argStoragePath);
     if (!driver.initSuccess()){
         printf("DeltaDore Driver init failed.\n");
         return 3;
@@ -101,6 +101,18 @@ int main(int argc, char ** argv)
  *         printf("get error %s\n", err);
  *     }
  */
+
+    UdpCmdManager* pUdpCmdManager = new UdpCmdManager();
+    pUdpCmdManager->setPort(argUdpPort);
+    pthread_t udpThread = pUdpCmdManager->start();
+
+    printf("UDP command listening at port %d\n", argUdpPort);
+    pthread_join(udpThread, (void**)0);
+
+
+    printf("Stopping UDP command listening thread\n");
+    pUdpCmdManager->release();
+    delete pUdpCmdManager;
 
     return 0;
 }

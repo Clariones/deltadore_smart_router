@@ -4,6 +4,8 @@
 #include "driver/DeltaDoreX2Driver.h"
 #include "driver/cJSON.h"
 
+#define MAX_UDP_SIZE 1500
+
 typedef const char* CMD_RETURN_TYPE;
 
 class BaseCmdHandler
@@ -12,7 +14,7 @@ class BaseCmdHandler
         BaseCmdHandler();
         virtual ~BaseCmdHandler();
 
-    protected:
+    public:
         virtual const char * handle(const char* pCmd, DeltaDoreX2Driver* pDriver) = 0;
         virtual const char * getCommandName() = 0;
         virtual const char * getUsage() = 0;

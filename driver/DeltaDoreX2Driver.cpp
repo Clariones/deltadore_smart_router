@@ -63,7 +63,7 @@ void DeltaDoreX2Driver::init(const char* devName, const char* storageFile)
         fdStorage = fopen(storageFile, "r");
         initDeviceNames();
     }
-    return;
+
     // self init
     sem_init(&semAck, 0, 0);
     for(int i=0; i<MAX_NETWORK_NUM; i++)
@@ -122,7 +122,7 @@ void DeltaDoreX2Driver::init(const char* devName, const char* storageFile)
 
 bool DeltaDoreX2Driver::initDeviceNames()
 {
-
+    return false;
 }
 void DeltaDoreX2Driver::saveDeviceNames()
 {

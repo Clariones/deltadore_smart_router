@@ -514,10 +514,11 @@
 1339076036 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/light/LightSettingArg.cpp
 	"light/LightSettingArg.h"
 
-1476156068 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/main.cpp
+1476358001 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/main.cpp
 	<stdio.h>
 	"driver/DeltaDoreX2Driver.h"
 	"clt/CommandLineTool.h"
+	"udpclt/UdpCmdManager.h"
 	"driver/DataMap.h"
 
 1339076096 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/metering/CompositeRegisterSelection.cpp
@@ -1443,7 +1444,7 @@
 1339076032 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/hvac/HeatingMode.h
 	"requirement.h"
 
-1476157004 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
+1476357164 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/driver/DeltaDoreX2Driver.cpp
 	"assert.h"
 	"driver/DeltaDoreX2Driver.h"
 	<unistd.h>
@@ -1650,15 +1651,23 @@
 
 1474766020 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/udp_server.h
 
-1476152999 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/UdpCmdManager.cpp
+1476362042 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/UdpCmdManager.cpp
 	"UdpCmdManager.h"
+	<stdio.h>
+	<string.h>
+	"CmdControlLightHandler.h"
 
-1476152999 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/UdpCmdManager.h
+1476361606 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/UdpCmdManager.h
+	<pthread.h>
+	"udp_server.h"
+	"BaseCmdHandler.h"
+	"driver/DeltaDoreX2Driver.h"
+	"driver/cJSON.h"
 
-1476177803 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/BaseCmdHandler.cpp
+1476360682 source:/media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/BaseCmdHandler.cpp
 	"BaseCmdHandler.h"
 
-1476177915 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/BaseCmdHandler.h
+1476360898 /media/clariones/LinuxData/ubuntu/codes/cpp/codeblockws/TestFDTI/udpclt/BaseCmdHandler.h
 	"driver/DeltaDoreX2Driver.h"
 	"driver/cJSON.h"
 
