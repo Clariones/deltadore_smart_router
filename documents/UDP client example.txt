@@ -1,0 +1,29 @@
+#include <iostream>
+#include "udp_client.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+    if (argc < 2){
+        printf("must have message\n");
+        return -1;
+    }
+    cout << "Hello world!" << endl;
+
+    udp_client_t * pClient = udp_client_new();
+    pClient->connect(pClient, "127.0.0.1", 1800);
+    pClient->send(pClient, argv[1], 20);
+    char recvBuff[1500];
+    int len = pClient->recv(pClient, recvBuff, 1500);
+    recvBuff[len] = 0;
+    printf("Got response:\n%s\n", recvBuff);
+
+    const char* usage = "Usage:\n""==>" \
+                "    test <param1>\n" \
+                "Good luck";
+    printf(usage);
+
+    return 0;
+}
+
