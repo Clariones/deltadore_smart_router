@@ -17,8 +17,10 @@ CmdRegisterNodeHandler::~CmdRegisterNodeHandler(){
 const char* CmdRegisterNodeHandler::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
     int network;
     // first string always the command, so just skip it
-    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
-    
+    const char* pCurrentParam = pCmd;
+
+    // process paramter: network
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -27,7 +29,8 @@ const char* CmdRegisterNodeHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
         return newWrongIntParamResponse("Invalid network number %d", network);
     }
 
-    cJSON* pResponse = pDriver->registerNode(network );    
+    cJSON* pResponse = pDriver->registerNode(network);
+    
     return newResponse(pResponse);
 }
 
@@ -36,7 +39,8 @@ const char * CmdRegisterNodeHandler::getCommandName(){
 }
 
 const char * CmdRegisterNodeHandler::getUsage(){
-    return "Usage:\n" \
+    return "Register a new device into an appointed network\n" \
+        "Usage:\n" \
         "    registerNode <network>";
 }
 

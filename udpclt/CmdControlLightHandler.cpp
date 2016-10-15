@@ -70,8 +70,9 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     } else if (strcmp("preset-2", option) == 0 ) {
         pResponse = pDriver->preset2Light(network, node );
     } else {
+        CMD_RETURN_TYPE pResult = newWrongStringParamResponse("invalid option %s", option);
         delete option;
-        return newWrongStringParamResponse("invalid option %s", option);
+        return pResult;
     }
 
     delete option;

@@ -20,8 +20,10 @@ const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2
     int node;
 
     // first string always the command, so just skip it
-    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
+    const char* pCurrentParam = pCmd;
     
+    // process paramter: network
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -29,7 +31,7 @@ const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2
     if (!isValidNetwork(network)){
         return newWrongIntParamResponse("Invalid network number %d", network);
     }
-    
+    // process parameter: node 
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
@@ -38,7 +40,7 @@ const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2
     if (!isValidNode(node)){
         return newWrongIntParamResponse("Invalid node number %d", node);
     }
-    
+    // process parameter: option
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
@@ -47,8 +49,9 @@ const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2
     cJSON* pResponse = NULL;
     getParamString(pCurrentParam, option);
     if (strlen(option) >= MAX_OPTION_LENTH){
+        const char* pResult =  newWrongStringParamResponse("invalid option %s", option);
         delete option;
-        return newWrongStringParamResponse("invalid option %s", option);
+        return pResult;
     } else if (strcmp("up", option) == 0 ) {
         pResponse = pDriver->openRollerShutter(network, node );
     } else if (strcmp("down", option) == 0 ) {
@@ -60,8 +63,9 @@ const char* CmdControlRollerShutterHandler::handle(const char* pCmd, DeltaDoreX2
     } else if (strcmp("stop", option) == 0 ) {
         pResponse = pDriver->stopRollerShutter(network, node );
     } else {
+        const char* pResult = newWrongStringParamResponse("invalid option %s", option);
         delete option;
-        return newWrongStringParamResponse("invalid option %s", option);
+        return pResult;
     }
     
     delete option;
@@ -73,7 +77,8 @@ const char * CmdControlRollerShutterHandler::getCommandName(){
 }
 
 const char * CmdControlRollerShutterHandler::getUsage(){
-    return "Usage:\n" \
+    return "control roller-shutter device\n" \
+        "Usage:\n" \
         "    controlRollerShutter <network> <node> option\n" \
         "Params:\n" \
         "    network: the network number of target device, 0~11\n" \

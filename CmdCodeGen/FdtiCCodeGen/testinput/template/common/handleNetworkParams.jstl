@@ -1,0 +1,22 @@
+<#if command_config.hasNetwork>
+    // process paramter: network
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+    getParamInt(pCurrentParam, &network);
+    if (!isValidNetwork(network)){
+        return newWrongIntParamResponse("Invalid network number %d", network);
+    }
+</#if>
+<#if command_config.hasNode>
+    // process parameter: node 
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    if (pCurrentParam == NULL){
+        return newMissingRequiredParametersResponse();
+    }
+    getParamInt(pCurrentParam, &node);
+    if (!isValidNode(node)){
+        return newWrongIntParamResponse("Invalid node number %d", node);
+    }
+</#if>

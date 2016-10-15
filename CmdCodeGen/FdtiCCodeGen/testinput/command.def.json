@@ -1,5 +1,5 @@
 {
-	outputFolder: "testoutput/fdti/cpp",
+	outputFolder: "/home/clariones/Desktop/works/jobs/FDTI_Linux/git/deltadore_router/CppPrjoects/TestFDTI",
 	templateBaseFolder: "testinput/template",
 	subFolder : "udpclt",
 	configs: [
@@ -73,6 +73,75 @@
 			apiName : "registerNode",
 			hasNetwork: true,
 			hasNode: false
+		},
+		{
+			name: "delete node",
+			template: "NetworkApi",
+			description: "Delete node from network",
+			apiName : "deleteNode",
+			hasNetwork: true,
+			hasNode: true
+		},
+		{
+			name: "get topology",
+			template: "NetworkApi",
+			description: "Get currently recognized network and nodes",
+			apiName : "getTopology",
+			hasNetwork: false,
+			hasNode: false
+		},
+		{
+			name: "force refresh topology",
+			template: "NetworkApi",
+			description: "Get currently recognized network and nodes",
+			apiName : "refreshTopology",
+			hasNetwork: false,
+			hasNode: false
+		},
+		{
+			name: "query light status",
+			template: "SimpleApi",
+			description: "query light status information",
+			apiName : "queryLightStatus",
+			hasNetwork: true,
+			hasNode: true,
+			params : []
+		},
+		{
+			name: "query light color",
+			template: "SimpleApi",
+			description: "query light color information",
+			apiName : "queryLightColor",
+			hasNetwork: true,
+			hasNode: true,
+			params : []
+		},
+		{
+			name: "query light info",
+			template: "SimpleApi",
+			description: "query light manufacture information",
+			apiName : "queryLightInfo",
+			hasNetwork: true,
+			hasNode: true,
+			params : []
+		},
+		{
+			name: "query roller shutter status",
+			template: "SimpleApi",
+			description: "query roller shutter status information",
+			apiName : "queryRollerShutterStatus",
+			hasNetwork: true,
+			hasNode: true,
+			params : []
+		},
+		{
+			name: "query roller shutter info",
+			template: "SimpleApi",
+			description: "query roller shutter manufacture information",
+			apiName : "queryRollerShutterInfo",
+			hasNetwork: true,
+			hasNode: true,
+			params : []
 		}
 	]
 }

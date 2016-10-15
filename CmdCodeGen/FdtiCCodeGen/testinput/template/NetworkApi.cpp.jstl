@@ -17,43 +17,18 @@ const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
     int node;
 </#if>
     // first string always the command, so just skip it
-    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
-    
-    if (pCurrentParam == NULL){
-        return newMissingRequiredParametersResponse();
-    }
-<#if command_config.hasNetwork>
-    getParamInt(pCurrentParam, &network);
-    if (!isValidNetwork(network)){
-        return newWrongIntParamResponse("Invalid network number %d", network);
-    }
-    <#if command_config.hasNode>
-    pCurrentParam = getNextParamStartPosition(pCurrentParam);
-    if (pCurrentParam == NULL){
-        return newMissingRequiredParametersResponse();
-    }
-    </#if>
-</#if>
-<#if command_config.hasNode>
-    getParamInt(pCurrentParam, &node);
-    if (!isValidNode(node)){
-        return newWrongIntParamResponse("Invalid node number %d", node);
-    }
-</#if>
+    const char* pCurrentParam = pCmd;
+
+	<#include "common/handleNetworkParams.jstl"/>
 
     cJSON* pResponse = pDriver->${command_config.apiName}(<@compress single_line=true>
 		<#if command_config.hasNetwork>
-		    network
-		    <#if command_config.hasNode>
-		    	,
-		    <#else>
-		    	);
-		    </#if>
+		    network<#if command_config.hasNode>,</#if>
 		</#if>
 		<#if command_config.hasNode>
-		    node);
+		    node
 		</#if>
-    </@compress>
+    </@compress>);
     
     return newResponse(pResponse);
 }
@@ -66,4 +41,4 @@ const char * ${class_name}::getUsage(){
     return "${usage}";
 }
 
-#undefine CMD_NAME
+#undef CMD_NAME

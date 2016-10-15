@@ -20,8 +20,10 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     int node;
 
     // first string always the command, so just skip it
-    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
+    const char* pCurrentParam = pCmd;
     
+    // process paramter: network
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -29,7 +31,7 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     if (!isValidNetwork(network)){
         return newWrongIntParamResponse("Invalid network number %d", network);
     }
-    
+    // process parameter: node 
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
@@ -38,7 +40,7 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     if (!isValidNode(node)){
         return newWrongIntParamResponse("Invalid node number %d", node);
     }
-    
+    // process parameter: option
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
@@ -47,8 +49,9 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     cJSON* pResponse = NULL;
     getParamString(pCurrentParam, option);
     if (strlen(option) >= MAX_OPTION_LENTH){
+        const char* pResult =  newWrongStringParamResponse("invalid option %s", option);
         delete option;
-        return newWrongStringParamResponse("invalid option %s", option);
+        return pResult;
     } else if (strcmp("off", option) == 0 ) {
         pResponse = pDriver->switchOffLight(network, node );
     } else if (strcmp("on", option) == 0 ) {
@@ -70,8 +73,9 @@ const char* CmdControlLightHandler::handle(const char* pCmd, DeltaDoreX2Driver* 
     } else if (strcmp("preset-2", option) == 0 ) {
         pResponse = pDriver->preset2Light(network, node );
     } else {
+        const char* pResult = newWrongStringParamResponse("invalid option %s", option);
         delete option;
-        return newWrongStringParamResponse("invalid option %s", option);
+        return pResult;
     }
     
     delete option;
@@ -83,7 +87,8 @@ const char * CmdControlLightHandler::getCommandName(){
 }
 
 const char * CmdControlLightHandler::getUsage(){
-    return "Usage:\n" \
+    return "Control light devices\n" \
+        "Usage:\n" \
         "    controlLight <network> <node> option\n" \
         "Params:\n" \
         "    network: the network number of target device, 0~11\n" \

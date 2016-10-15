@@ -21,8 +21,10 @@ const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Dri
     int green;
     int blue;
     // first string always the command, so just skip it
-    const char* pCurrentParam = getNextParamStartPosition(pCmd);;
+    const char* pCurrentParam = pCmd;
     
+    // process paramter: network
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -30,7 +32,7 @@ const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Dri
     if (!isValidNetwork(network)){
         return newWrongIntParamResponse("Invalid network number %d", network);
     }
-    
+    // process parameter: node 
     pCurrentParam = getNextParamStartPosition(pCurrentParam);
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
@@ -40,7 +42,8 @@ const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Dri
         return newWrongIntParamResponse("Invalid node number %d", node);
     }
     
-    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    // process parameter: red
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -48,8 +51,8 @@ const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Dri
     if (!isValidIntParam(red, 0, 255){
         return newWrongIntParamResponse("invalid red value %d, should be in [0, 255]", red);
     }
-    
-    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    // process parameter: green
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -57,8 +60,8 @@ const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Dri
     if (!isValidIntParam(green, 0, 255){
         return newWrongIntParamResponse("invalid green value %d, should be in [0, 255]", green);
     }
-    
-    pCurrentParam = getNextParamStartPosition(pCurrentParam);
+    // process parameter: blue
+    pCurrentParam = getNextParamStartPosition(pCurrentParam);;
     if (pCurrentParam == NULL){
         return newMissingRequiredParametersResponse();
     }
@@ -66,7 +69,6 @@ const char* CmdControlLightColorHandler::handle(const char* pCmd, DeltaDoreX2Dri
     if (!isValidIntParam(blue, 0, 255){
         return newWrongIntParamResponse("invalid blue value %d, should be in [0, 255]", blue);
     }
-
 
     cJSON* pResponse = pDriver->setLightColor(network, node, red, green, blue);
     return newResponse(pResponse);
@@ -77,7 +79,8 @@ const char * CmdControlLightColorHandler::getCommandName(){
 }
 
 const char * CmdControlLightColorHandler::getUsage(){
-    return "Usage:\n" \
+    return "Control light color\n" \
+        "Usage:\n" \
         "    controlLightColor <network> <node> <red> <green> <blue>\n" \
         "Params:\n" \
         "    network: the network number of target device, 0~11\n" \

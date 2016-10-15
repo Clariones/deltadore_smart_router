@@ -98,6 +98,7 @@ public class CppFileGenerator extends BaseGenerator{
 
 	private void fillNetworkUsage(CommandConfig cmdCfg, StringBuilder sb) {
 		String cmdName = getCamelName(cmdCfg.getName());
+		sb.append(cmdCfg.description).append("\\n");
 		sb.append("Usage:\\n");
 		sb.append("    ").append(cmdName);
 		if (cmdCfg.hasNetwork){
