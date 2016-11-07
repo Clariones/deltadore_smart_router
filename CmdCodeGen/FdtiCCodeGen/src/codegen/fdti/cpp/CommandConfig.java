@@ -12,6 +12,14 @@ public class CommandConfig {
 	protected String paramName;
 	protected Map<String, Object> mapping;
 	protected Object[] params;
+	protected String resultUiHandling;
+	
+	public String getResultUiHandling() {
+		return resultUiHandling;
+	}
+	public void setResultUiHandling(String resultUiHandling) {
+		this.resultUiHandling = resultUiHandling;
+	}
 	public String getName() {
 		return name;
 	}

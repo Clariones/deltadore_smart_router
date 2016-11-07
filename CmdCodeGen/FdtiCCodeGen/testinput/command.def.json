@@ -1,5 +1,5 @@
 {
-	outputFolder: "/home/clariones/Desktop/works/jobs/FDTI_Linux/git/deltadore_router/CppPrjoects/TestFDTI",
+	outputFolder: "testoutput/fdti/cpp",
 	templateBaseFolder: "testinput/template",
 	subFolder : "udpclt",
 	configs: [
@@ -10,6 +10,7 @@
 			hasNetwork: true,
 			hasNode: true,
 			paramName: "option",
+			resultUiHandling: "popupResult",
 			mapping: {
 				"off" : "switchOffLight",
 				"on": "switchOnLight",
@@ -30,6 +31,7 @@
 			apiName : "setLightColor",
 			hasNetwork: true,
 			hasNode: true,
+			resultUiHandling: "popupResult",
 			params : [
 				{
 					paramName: "red",
@@ -58,6 +60,7 @@
 			hasNetwork: true,
 			hasNode: true,
 			paramName: "option",
+			resultUiHandling: "popupResult",
 			mapping: {
 				"up" : "openRollerShutter",
 				"down": "closeRollerShutter",
@@ -71,6 +74,7 @@
 			template: "NetworkApi",
 			description: "Register a new device into an appointed network",
 			apiName : "registerNode",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: false
 		},
@@ -79,6 +83,7 @@
 			template: "NetworkApi",
 			description: "Delete node from network",
 			apiName : "deleteNode",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: true
 		},
@@ -87,6 +92,7 @@
 			template: "NetworkApi",
 			description: "Get currently recognized network and nodes",
 			apiName : "getTopology",
+			resultUiHandling: "popupResult",
 			hasNetwork: false,
 			hasNode: false
 		},
@@ -95,6 +101,7 @@
 			template: "NetworkApi",
 			description: "Get currently recognized network and nodes",
 			apiName : "refreshTopology",
+			resultUiHandling: "popupResult",
 			hasNetwork: false,
 			hasNode: false
 		},
@@ -103,6 +110,7 @@
 			template: "SimpleApi",
 			description: "query light status information",
 			apiName : "queryLightStatus",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: true,
 			params : []
@@ -112,6 +120,7 @@
 			template: "SimpleApi",
 			description: "query light color information",
 			apiName : "queryLightColor",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: true,
 			params : []
@@ -121,6 +130,7 @@
 			template: "SimpleApi",
 			description: "query light manufacture information",
 			apiName : "queryLightInfo",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: true,
 			params : []
@@ -130,6 +140,7 @@
 			template: "SimpleApi",
 			description: "query roller shutter status information",
 			apiName : "queryRollerShutterStatus",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: true,
 			params : []
@@ -139,9 +150,44 @@
 			template: "SimpleApi",
 			description: "query roller shutter manufacture information",
 			apiName : "queryRollerShutterInfo",
+			resultUiHandling: "popupResult",
 			hasNetwork: true,
 			hasNode: true,
 			params : []
+		},
+		{
+			name: "set network name",
+			template: "SimpleApi",
+			description: "Assign a friendly name to a network",
+			apiName : "setNetworkName",
+			resultUiHandling: "popupResult",
+			hasNetwork: true,
+			hasNode: false,
+			params : [
+				{
+					paramName: "name",
+					type : "string",
+					note: "name of the network",
+					length: "MAX_NAME_LENGTH"
+				}
+			]
+		},
+		{
+			name: "set node name",
+			template: "SimpleApi",
+			description: "Assign a friendly name to a node",
+			apiName : "setNodeName",
+			resultUiHandling: "popupResult",
+			hasNetwork: true,
+			hasNode: true,
+			params : [
+				{
+					paramName: "name",
+					type : "string",
+					note: "name of the node",
+					length: "MAX_NAME_LENGTH"
+				}
+			]
 		}
 	]
 }

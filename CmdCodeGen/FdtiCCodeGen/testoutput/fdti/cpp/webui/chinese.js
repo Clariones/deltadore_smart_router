@@ -1,0 +1,32 @@
+
+	setS.DevicesCmdName = {
+			queryLightStatus:"查询灯光状态",
+			setNodeName:"设置节点名称",
+			queryRollerShutterInfo:"查询窗帘设备信息",
+			controlLight:"控制灯光设备",
+			getTopology:"查询所有设备状态",
+			queryLightColor:"查询灯光颜色",
+			setNetworkName:"设置区域名称",
+			deleteNode:"删除一个设备",
+			registerNode:"注册一个设备",
+			queryRollerShutterStatus:"查询窗帘状态",
+			queryLightInfo:"查询灯光设备信息",
+			controlRollerShutter:"控制窗帘",
+			controlLightColor:"设置灯光颜色",
+			forceRefreshTopology:"强制刷新所有设备状态",
+			selectOneCommand:"请选择一个命令"
+	};
+	setS.DevicesQueryLightStatusDscp="查询灯光设备的状态";
+	setS.DevicesSetNodeNameDscp="设置一个指定区域内的设备的名字";
+	setS.DevicesQueryRollerShutterInfoDscp="查询窗帘设备的厂家信息";
+	setS.DevicesControlLightDscp="控制灯光设备的状态";
+	setS.DevicesGetTopologyDscp="查询当前的所有设备状态";
+	setS.DevicesQueryLightColorDscp="查询灯光设备的颜色信息";
+	setS.DevicesSetNetworkNameDscp="设置一个区域的名称";
+	setS.DevicesDeleteNodeDscp="删除一个指定的设备";
+	setS.DevicesRegisterNodeDscp="注册一个设备到指定的区域";
+	setS.DevicesQueryRollerShutterStatusDscp="查询窗帘设备的状态";
+	setS.DevicesQueryLightInfoDscp="查询灯光设备的厂家信息";
+	setS.DevicesControlRollerShutterDscp="控制窗帘的位置";
+	setS.DevicesControlLightColorDscp="设置灯光设备的颜色";
+	setS.DevicesForceRefreshTopologyDscp="清楚缓存，强制刷新所有设备状态";

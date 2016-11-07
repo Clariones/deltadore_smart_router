@@ -1,0 +1,20 @@
+
+	setS.DevicesCmdName = {
+<#list commands?keys as command_name>
+	<#assign cmdCfg=commands[command_name]>
+	<#if command_naming[cmdCfg.cmd_name]?has_content>
+			${cmdCfg.cmd_name}:"${command_naming[cmdCfg.cmd_name]}",
+	<#else>
+			${cmdCfg.cmd_name}:"???",
+	</#if>
+</#list>
+			selectOneCommand:"请选择一个命令"
+	};
+<#list commands?keys as command_name>
+	<#assign cmdCfg=commands[command_name]>
+	<#if command_dscp[cmdCfg.cmd_name]?has_content>
+	setS.Devices${cmdCfg.cmd_name?cap_first}Dscp="${command_dscp[cmdCfg.cmd_name]}";
+	<#else>
+	setS.Devices${cmdCfg.cmd_name?cap_first}Dscp="???";
+	</#if>
+</#list>

@@ -19,6 +19,8 @@ const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
 <#list command_config.params as param>
     <#if param.type == "int">
     int ${param.paramName};
+    <#elseif param.type == "string">
+    char* ${param.paramName};
     <#else>
     	<#stop "unknow param type " + param.type/>
     </#if>
@@ -39,6 +41,13 @@ const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
     if (!isValidIntParam(${param.paramName}, ${param.range[0]}, ${param.range[1]})){
         return newWrongIntParamResponse("invalid ${param.paramName} value %d, should be in [${param.range[0]}, ${param.range[1]}]", ${param.paramName});
     }
+    <#elseif param.type == "string">
+    ${param.paramName} = new char[strlen(pCurrentParam) +1];
+    getParamString(pCurrentParam, ${param.paramName});
+    if (!isValidStringParam(${param.paramName}, ${param.length})){
+        delete ${param.paramName};
+        return newWrongStringParamResponse("invalid ${param.paramName} value, should be string with length [1, ${param.length}]", ${param.paramName});
+    }
     <#else>
     	<#stop "unknow param type " + param.type/>
     </#if>
@@ -55,6 +64,12 @@ const char* ${class_name}::handle(const char* pCmd, DeltaDoreX2Driver* pDriver){
 			${param.paramName}<#if param_has_next>,</#if>
 		</#list>
     </@compress>);
+    
+<#list command_config.params as param>
+    <#if param.type == "string">
+    delete ${param.paramName};
+    </#if>
+</#list>    
     return newResponse(pResponse);
 }
 

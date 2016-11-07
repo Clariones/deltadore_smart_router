@@ -12,13 +12,17 @@ public class Main {
 		FileReader fReader = new FileReader(new File(fileName));
 		Config config = new Gson().fromJson(fReader, Config.class);
 		
-		BaseGenerator cppWorker = new CppFileGenerator();
-		cppWorker.setConfig(config);
-		cppWorker.run();
+//		BaseGenerator cppWorker = new CppFileGenerator();
+//		cppWorker.setConfig(config);
+//		cppWorker.run();
+//		
+//		BaseGenerator headerWorker = new HeaderFileGenerator();
+//		headerWorker.setConfig(config);
+//		headerWorker.run();
 		
-		BaseGenerator headerWorker = new HeaderFileGenerator();
-		headerWorker.setConfig(config);
-		headerWorker.run();
+		BaseGenerator uiWorker = new CommandUIGenerator();
+		uiWorker.setConfig(config);
+		uiWorker.run();
 	}
 
 	

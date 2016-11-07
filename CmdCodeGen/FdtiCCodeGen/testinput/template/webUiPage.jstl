@@ -1,0 +1,99 @@
+    <fieldset>
+			<legend data-text="TitleControl">Device Controlling</legend>
+			<div>
+				<label data-text="TitleSelectCommand">Select a command</label>
+				<select onchange="onCommandChanged(this.value)">
+					<option data-cmd-name="selectOneCommand" selected="selected"></option>
+<#list commands?keys?sort as command_name>
+	<#assign cmdCfg=commands[command_name]>
+					<option data-cmd-name="${cmdCfg.cmd_name}"></option>
+</#list>
+				</select>
+			</div>
+<#list orignal_cfg?sort as orgCmdCfg>
+	<#assign command_name=orgCmdCfg.name/>
+	<#assign cmdCfg=commands[command_name]>
+			<div id="cmdiv_${cmdCfg.cmd_name}" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="${cmdCfg.cmd_name?cap_first}Dscp"></label></div>
+	<#if orgCmdCfg.hasNetwork>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+	</#if>
+	<#if orgCmdCfg.hasNode>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+	</#if>
+				<@.vars["genCmdDiv_"+orgCmdCfg.template] cmdCfg.cmd_name,orgCmdCfg/>
+	<#assign paramStr=getParamString(orgCmdCfg)/>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, '${cmdCfg.cmd_name}', [${paramStr?join(",")}], ${orgCmdCfg.resultUiHandling})" type="button"/>
+			</div>
+</#list>
+	</fieldset>
+	<div id="internal_divider1" class="internal_divider"></div>
+	<fieldset>
+		<legend data-text="AllInTable">设备列表</legend>
+		
+		<table>
+		<tr class="header_row">
+			<th data-text="Area"></th>
+			<th data-text="Name"></th>
+			<th data-text="Node"></th>
+			<th data-text="DeviceType"></th>
+			<th data-text="State"></th></tr>
+			<tbody id="delta_dore_device_table"></tbody>
+		</table>
+		<input class="default_button" data-text="Refresh" onclick="createDeltaDoreDeviceTable(topologyResponse)" type="button"/>
+	</fieldset>
+	<script type="text/javascript">
+		initText();
+	</script>
+	
+	
+<#function getParamString cmdCfg>
+	<#assign result=[]/>
+	<#if cmdCfg.hasNetwork>
+		<#assign result=result+["\'network\'"]/>
+	</#if>
+	<#if cmdCfg.hasNode>
+		<#assign result=result+["\'node\'"]/>
+	</#if>
+	<#switch cmdCfg.template>
+		<#case "ApiMapping">
+			<#assign result=result+["\'"+cmdCfg.paramName+"\'"]/>
+			<#break>
+		<#case "NetworkApi">
+			<#break>
+		<#case "SimpleApi">
+			<#list cmdCfg.params as paramCfg>
+				<#assign result=result+["\'"+paramCfg.paramName+"\'"]/>
+			</#list>
+			<#break>
+		<#default>
+			<#stop "unknown tempalte type " + cmdCfg.template/>
+	</#switch>
+	<#return result/>
+</#function>		
+		
+<#macro genCmdDiv_ApiMapping cmdName, cmdCfg>
+		<div>
+			<label class="narrowleftcolumn" data-text="Param${cmdCfg.paramName?cap_first}"></label>
+			<select data-param-name="${cmdCfg.paramName}">
+	<#list cmdCfg.mapping?keys?sort as actionName>
+						<option value="${actionName}">${actionName}</option>
+	</#list>
+			</select>
+		</div>
+</#macro>
+
+<#macro genCmdDiv_SimpleApi cmdName, cmdCfg>
+	<#list cmdCfg.params as paramCfg>
+			<div>
+				<label class="narrowleftcolumn" data-text="Param${paramCfg.paramName?cap_first}"></label>
+				<input data-param-name="${paramCfg.paramName}"/>
+			<#if paramCfg.type=='int'>
+				<label>[${paramCfg.range[0]},${paramCfg.range[1]}]</label>
+			</#if>
+			</div>
+	</#list>
+</#macro>
+
+<#macro genCmdDiv_NetworkApi cmdName, cmdCfg>
+</#macro>

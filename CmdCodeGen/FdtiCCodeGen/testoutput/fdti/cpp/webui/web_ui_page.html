@@ -1,0 +1,169 @@
+    <fieldset>
+			<legend data-text="TitleControl">Device Controlling</legend>
+			<div>
+				<label data-text="TitleSelectCommand">Select a command</label>
+				<select onchange="onCommandChanged(this.value)">
+					<option data-cmd-name="selectOneCommand" selected="selected"></option>
+					<option data-cmd-name="controlLight"></option>
+					<option data-cmd-name="controlLightColor"></option>
+					<option data-cmd-name="controlRollerShutter"></option>
+					<option data-cmd-name="deleteNode"></option>
+					<option data-cmd-name="forceRefreshTopology"></option>
+					<option data-cmd-name="getTopology"></option>
+					<option data-cmd-name="queryLightColor"></option>
+					<option data-cmd-name="queryLightInfo"></option>
+					<option data-cmd-name="queryLightStatus"></option>
+					<option data-cmd-name="queryRollerShutterInfo"></option>
+					<option data-cmd-name="queryRollerShutterStatus"></option>
+					<option data-cmd-name="registerNode"></option>
+					<option data-cmd-name="setNetworkName"></option>
+					<option data-cmd-name="setNodeName"></option>
+				</select>
+			</div>
+			<div id="cmdiv_queryLightInfo" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="QueryLightInfoDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'queryLightInfo', ['network','node'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_queryLightColor" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="QueryLightColorDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'queryLightColor', ['network','node'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_registerNode" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="RegisterNodeDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'registerNode', ['network'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_forceRefreshTopology" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="ForceRefreshTopologyDscp"></label></div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'forceRefreshTopology', [], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_queryRollerShutterStatus" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="QueryRollerShutterStatusDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'queryRollerShutterStatus', ['network','node'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_controlLightColor" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="ControlLightColorDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+			<div>
+				<label class="narrowleftcolumn" data-text="ParamRed"></label>
+				<input data-param-name="red"/>
+				<label>[0,255]</label>
+			</div>
+			<div>
+				<label class="narrowleftcolumn" data-text="ParamGreen"></label>
+				<input data-param-name="green"/>
+				<label>[0,255]</label>
+			</div>
+			<div>
+				<label class="narrowleftcolumn" data-text="ParamBlue"></label>
+				<input data-param-name="blue"/>
+				<label>[0,255]</label>
+			</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'controlLightColor', ['network','node','red','green','blue'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_queryRollerShutterInfo" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="QueryRollerShutterInfoDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'queryRollerShutterInfo', ['network','node'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_controlRollerShutter" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="ControlRollerShutterDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+		<div>
+			<label class="narrowleftcolumn" data-text="ParamOption"></label>
+			<select data-param-name="option">
+						<option value="down">down</option>
+						<option value="down-slow">down-slow</option>
+						<option value="stop">stop</option>
+						<option value="up">up</option>
+						<option value="up-slow">up-slow</option>
+			</select>
+		</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'controlRollerShutter', ['network','node','option'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_controlLight" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="ControlLightDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+		<div>
+			<label class="narrowleftcolumn" data-text="ParamOption"></label>
+			<select data-param-name="option">
+						<option value="alarm-pairing">alarm-pairing</option>
+						<option value="off">off</option>
+						<option value="on">on</option>
+						<option value="preset-1">preset-1</option>
+						<option value="preset-2">preset-2</option>
+						<option value="ram-down">ram-down</option>
+						<option value="ram-up">ram-up</option>
+						<option value="stand-out">stand-out</option>
+						<option value="stop">stop</option>
+						<option value="toggle">toggle</option>
+			</select>
+		</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'controlLight', ['network','node','option'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_getTopology" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="GetTopologyDscp"></label></div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'getTopology', [], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_queryLightStatus" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="QueryLightStatusDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'queryLightStatus', ['network','node'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_setNetworkName" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="SetNetworkNameDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+			<div>
+				<label class="narrowleftcolumn" data-text="ParamName"></label>
+				<input data-param-name="name"/>
+			</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'setNetworkName', ['network','name'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_setNodeName" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="SetNodeNameDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+			<div>
+				<label class="narrowleftcolumn" data-text="ParamName"></label>
+				<input data-param-name="name"/>
+			</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'setNodeName', ['network','node','name'], popupResult)" type="button"/>
+			</div>
+			<div id="cmdiv_deleteNode" hidden>
+				<div><label data-text="TitleCmdParameters">Parameters</label>:<label data-text="DeleteNodeDscp"></label></div>
+				<div><label class="narrowleftcolumn" data-text="AreaID"></label><input data-param-name="network"/>[0,11]</div>
+				<div><label class="narrowleftcolumn" data-text="NodeID"></label><input data-param-name="node"/>[0,15]</div>
+				<input class="default_button" data-text="Execute" onclick="executeUdpCmd(this, 'deleteNode', ['network','node'], popupResult)" type="button"/>
+			</div>
+	</fieldset>
+	<div id="internal_divider1" class="internal_divider"></div>
+	<fieldset>
+		<legend data-text="AllInTable">设备列表</legend>
+		
+		<table>
+		<tr class="header_row">
+			<th data-text="Area"></th>
+			<th data-text="Name"></th>
+			<th data-text="Node"></th>
+			<th data-text="DeviceType"></th>
+			<th data-text="State"></th></tr>
+			<tbody id="delta_dore_device_table"></tbody>
+		</table>
+		<input class="default_button" data-text="Refresh" onclick="createDeltaDoreDeviceTable(topologyResponse)" type="button"/>
+	</fieldset>
+	<script type="text/javascript">
+		initText();
+	</script>
+	
+	

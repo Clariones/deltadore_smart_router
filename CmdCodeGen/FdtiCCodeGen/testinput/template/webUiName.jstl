@@ -1,0 +1,15 @@
+
+	setS.DevicesCmdName = {
+<#list commands?keys as command_name>
+	<#assign cmdCfg=commands[command_name]>
+			${cmdCfg.cmd_name}:"${command_name}",
+</#list>
+			selectOneCommand:"select one command"
+	};
+
+	setS.DevicesCmdDscp = {
+<#list orignal_cfg as orgCmdCfg>
+	<#assign command_name=orgCmdCfg.name/>
+	<#assign cmdCfg=commands[command_name]>
+	setS.Devices${cmdCfg.cmd_name?cap_first}Dscp="${orgCmdCfg.description}";
+</#list>
